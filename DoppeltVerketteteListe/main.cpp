@@ -12,7 +12,7 @@ int main() try {
     Person p2("Jamil", 24);
     Person p3("Theodor", 24);
     Person p4("Alex", 27);
-
+    Person p5("Thomas", 27);
 
     //Auto* auto1 = new Auto("VW", "DA1234", 4);
     //Auto* auto2 = new Auto("BMW", "KL5678", 3);
@@ -24,8 +24,17 @@ int main() try {
 
     personenList.push(p1);
     personenList.push(p2);
-    personenList.push(p1);
-    personenList.push(p2);
+    personenList.push(p3);
+    personenList.push(p4);
+
+    personenList.move();
+
+    personenList.insert(p5);
+
+    for (int i = 0; i < personenList.size(); i++) {
+
+    }
+
    
     return 0;
 }
