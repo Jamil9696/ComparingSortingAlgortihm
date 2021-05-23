@@ -8,9 +8,10 @@ public:
     Node(const T _data);
     void storeData(T object);
     int getSize() const;
-    Node* nextNode(Node<T>* src);
-    void connect(Node<T>* src);
+    void connectPnext(Node<T>* src);
+    void connectPprevious(Node<T>* src);
     Node* getPnext()const;
+    Node* getPprevious()const;
     void deconnect();
     T getData()const;
     ~Node() {
@@ -19,6 +20,7 @@ public:
 private:
     T data;
     Node<T>* pNext = nullptr;
+    Node<T>* pPrevious = nullptr;
     static int size;
 
 };
@@ -53,22 +55,15 @@ int Node<T>::getSize()const
 }
 
 template <class T>
-Node<T>* Node<T>::nextNode(Node<T>* src) {
-    if (src != nullptr)
-    {
+void Node<T>::connectPnext(Node<T>* src) {
+    pNext = src;
 
-        src = nextNode(src);
-    }
-    else
-    {
-        return src;
-    }
 }
 
 
 template <class T>
-void Node<T>::connect(Node<T>* src) {
-    pNext = src;
+void Node<T>::connectPprevious(Node<T>* src) {
+    pPrevious = src;
 
 }
 
@@ -78,8 +73,14 @@ Node<T>* Node<T>::getPnext()const {
 }
 
 template <class T>
+Node<T>* Node<T>::getPprevious()const {
+    return pPrevious;
+}
+
+template <class T>
 void Node<T>::deconnect() {
     pNext = nullptr;
+    pPrevious = nullptr;
 
 }
 
