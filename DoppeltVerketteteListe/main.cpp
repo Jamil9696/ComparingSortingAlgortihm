@@ -32,7 +32,7 @@ int main() try {
     personenList.insert(p5);
 
     for (int i = 0; i < personenList.size(); i++) {
-
+        std::cout <<i << ". "<< personenList.at(i).getName() << "\n";
     }
 
    

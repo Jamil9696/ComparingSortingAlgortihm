@@ -83,6 +83,18 @@ void LinkedList<T>::insert(T Object) {
     reset();
 }
 
+template <typename T>
+T LinkedList<T>::at(int pos) {
+
+    if (empty() || pos >= size()) throw std::string{ "invalid operation.\nTrying to return an invalid element " };
+
+    Node<T>* tmp = pTop;
+    for (int i = 0; i < pos; i++) {
+        tmp = tmp->getPnext();
+    }
+    return tmp->getData();
+
+}
 
 
 template <typename T>
