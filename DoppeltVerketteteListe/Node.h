@@ -12,7 +12,8 @@ public:
     void connectPprevious(Node<T>* src);
     Node* getPnext()const;
     Node* getPprevious()const;
-    void deconnect();
+    void deconnectPnext();
+    void deconnectPprevious();
     T getData()const;
     ~Node() {
         size--;
@@ -78,10 +79,13 @@ Node<T>* Node<T>::getPprevious()const {
 }
 
 template <class T>
-void Node<T>::deconnect() {
+void Node<T>::deconnectPnext() {
     pNext = nullptr;
-    pPrevious = nullptr;
+}
 
+template <class T>
+void Node<T>::deconnectPprevious() {
+    pPrevious = nullptr;
 }
 
 template <class T>

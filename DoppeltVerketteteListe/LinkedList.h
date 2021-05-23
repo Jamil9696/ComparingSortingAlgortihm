@@ -46,6 +46,44 @@ void LinkedList<T>::push(const T object) {
     pEnd = newNode;
 }
 
+template <typename T>
+void LinkedList<T>::move(int zahl) {
+
+    while (zahl < size() && zahl > 0) {
+        if (pPos->getPnext() != nullptr) {
+            pPos = pPos->getPnext();
+        }
+        zahl--;
+    }
+}
+
+template <typename T>
+void LinkedList<T>::insert(T Object) {
+
+    if (pPos == pTop) {
+        push(Object);
+        return;
+    }
+    Node<T>* p = new Node<T>(Object);
+    // connect P with his right and left element. We don't have to worry about the existing connections
+    // we simply overwrite them
+
+    // right connection
+    //  p ----> next Node
+    p->connectPnext(pPos->getPnext());
+    //  p <---- next Node 
+    pPos->getPnext()->connectPprevious(p);
+
+    // left connection 
+    // p -----> previous Node 
+    p->connectPprevious(pPos);
+    // p <---- previous Node
+    pPos->connectPnext(p);
+
+    reset();
+}
+
+
 
 template <typename T>
 void LinkedList<T>::reset() {
@@ -61,4 +99,16 @@ void LinkedList<T>::reset() {
             pEnd = pTop;
         }
     }
+}
+
+template <typename T>
+bool LinkedList<T>::empty()const {
+
+    return pTop == nullptr ? true : false;
+}
+
+template <typename T>
+int LinkedList<T>::size()const {
+
+    return pTop->getSize();
 }

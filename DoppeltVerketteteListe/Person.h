@@ -28,6 +28,9 @@ public:
 	int getAlter() const {
 		return alter;
 	}
+	void print(){
+		std::cout << name << "\n";
+	}
 
 private:
 	std::string name;
