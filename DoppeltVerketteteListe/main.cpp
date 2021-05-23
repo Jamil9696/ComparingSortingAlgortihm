@@ -34,8 +34,19 @@ int main() try {
     for (int i = 0; i < personenList.size(); i++) {
         std::cout <<i << ". "<< personenList.at(i).getName() << "\n";
     }
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
 
-   
+    std::cout << std::endl;
+
+    for (int i = 0; i < personenList.size(); i++) {
+        std::cout << i << ". " << personenList.at(i).getName() << "\n";
+    }
+
     return 0;
 }
 catch (std::string& s) {

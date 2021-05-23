@@ -17,6 +17,7 @@ public:
     T getData()const;
     ~Node() {
         size--;
+
     }
 private:
     T data;
