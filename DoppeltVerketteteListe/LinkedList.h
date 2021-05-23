@@ -10,14 +10,14 @@ public:
     void move(int steps = 1);
     void insert(T object);
     T get();
-    T at(int i
-
-    );
+    T at(int i);
 
     bool empty() const;
     int size()const;
     void pop();
-    void reset();
+    void popAt();
+private:
+    void checkPointer();
 
 private:
     Node<T>* pTop = nullptr;
@@ -42,7 +42,7 @@ void LinkedList<T>::push(const T object) {
     else {
         pTop = newNode;
     }
-    reset();
+    checkPointer();
     pEnd = newNode;
 }
 
@@ -80,7 +80,7 @@ void LinkedList<T>::insert(T Object) {
     // p <---- previous Node
     pPos->connectPnext(p);
 
-    reset();
+    checkPointer();
 }
 
 template <typename T>
@@ -95,10 +95,56 @@ T LinkedList<T>::at(int pos) {
     return tmp->getData();
 
 }
+template <typename T>
+T LinkedList<T>::get() {
+
+    if (!empty()) {
+        return pPos->getData();
+    }
+    else {
+        throw std::string{ "invalid operation.\nTrying to return the last element of an empty List" };
+    }
+}
+
+template <typename T>
+void LinkedList<T>::pop() {
+
+    if (pEnd != pTop) {
+        Node<T>* tmp = pEnd->getPprevious();
+        tmp->deconnectPnext();
+        delete pEnd;
+        pEnd = tmp;
+        pPos = pTop;
+    }
+    else {
+        if (pTop != nullptr) {
+            delete pTop;
+            pTop = nullptr;
+        }        
+    }
+
+    checkPointer();
+}
+
+template <typename T>
+void LinkedList<T>::popAt() {
+
+    if (pPos == pTop) return; 
+
+    Node<T>* tmp = pPos;
+    tmp->getPprevious()->connectPnext(tmp->getPnext());
+    tmp->getPnext()->connectPprevious(tmp->getPprevious());
+    pPos = pTop;
+    delete tmp;
+    delete tmp;
+    checkPointer();
+
+}
+
 
 
 template <typename T>
-void LinkedList<T>::reset() {
+void LinkedList<T>::checkPointer() {
     if (pTop == nullptr) {
         pTop = nullptr;
         pPos = nullptr;
