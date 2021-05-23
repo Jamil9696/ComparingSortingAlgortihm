@@ -24,21 +24,9 @@ int main() try {
 
     personenList.push(p1);
     personenList.push(p2);
-    personenList.push(p3);
-    personenList.move(1);
-    personenList.insert(p4);
-    std::cout << personenList.size() << "\n";
-    std::cout << personenList.at(2).getName() << "\n"; //Muesste Alex rauskommen
-
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-
-    Test::detectMemoryLeak();
-
-
-    while (!_kbhit());
+    personenList.push(p1);
+    personenList.push(p2);
+   
     return 0;
 }
 catch (std::string& s) {
