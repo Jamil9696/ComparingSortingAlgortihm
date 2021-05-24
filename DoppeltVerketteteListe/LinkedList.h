@@ -10,6 +10,7 @@ public:
     void move(int steps = 1);
     void insert(T object);
     void del();
+    void setToFirst();
     T get();
     T at(int i);
 
@@ -61,13 +62,26 @@ void LinkedList<T>::move(int zahl) {
 template <typename T>
 void LinkedList<T>::insert(T Object) {
 
-    if (pPos == pTop) {
-        push(Object);
-        return;
-    }
     Node<T>* p = new Node<T>(Object);
     // connect P with his right and left element. We don't have to worry about the existing connections
     // we simply overwrite them
+
+    if (pPos == pEnd) {
+        push(Object);
+        return;
+    }
+
+    else if (pPos == pTop)
+    {
+        
+        Node<T>* tmp = pTop;
+        p->connectPnext(pTop);
+        p->connectPprevious(nullptr);
+        pTop = p;
+        return;
+
+    }
+
 
     // right connection
     //  p ----> next Node
@@ -111,6 +125,12 @@ void LinkedList<T>::del()
     delete pPos;
     pPos = tmp;
     checkPointer();
+}
+
+template<typename T>
+void LinkedList<T>::setToFirst()
+{
+    pPos = pTop;
 }
 
 template <typename T>
