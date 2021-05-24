@@ -9,6 +9,7 @@ public:
     void push(const T object);
     void move(int steps = 1);
     void insert(T object);
+    void del();
     T get();
     T at(int i);
 
@@ -80,6 +81,35 @@ void LinkedList<T>::insert(T Object) {
     // p <---- previous Node
     pPos->connectPnext(p);
 
+    checkPointer();
+}
+
+template<typename T>
+void LinkedList<T>::del()
+{
+    if (pPos == pTop) {
+        pPos = pTop->getPnext();
+        pTop->deconnectPnext();
+        delete pTop;
+        pTop = pPos;
+        return;
+    }
+
+    else if(pPos == pEnd)
+    {
+        Node<T>* tmp = pPos->getPprevious();
+        delete pPos;
+        pPos = tmp;
+        pEnd = tmp;
+        return;
+
+    }
+
+    Node<T>* tmp = pPos->getPnext();
+    pPos->getPprevious()->connectPnext(pPos->getPnext());
+    pPos->getPnext()->connectPprevious(pPos->getPprevious());
+    delete pPos;
+    pPos = tmp;
     checkPointer();
 }
 

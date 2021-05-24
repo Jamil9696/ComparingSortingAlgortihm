@@ -31,11 +31,14 @@ int main() try {
 
     personenList.insert(p5);
 
+    personenList.move(2);
+
+    personenList.del();
+
     for (int i = 0; i < personenList.size(); i++) {
         std::cout <<i << ". "<< personenList.at(i).getName() << "\n";
     }
-    personenList.pop();
-    personenList.pop();
+
     personenList.pop();
     personenList.pop();
     personenList.pop();
