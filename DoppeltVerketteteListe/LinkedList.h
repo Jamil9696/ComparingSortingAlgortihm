@@ -22,8 +22,8 @@ public:
     void delAt(int i);
     void pop();
     void popAt(int i);
-private:
-   
+
+    void sortedFunction();
 
 private:
     Node<T>* pTop = nullptr;
@@ -227,4 +227,36 @@ template <typename T>
 int LinkedList<T>::size()const {
 
     return pTop->getSize();
+}
+
+template<typename T>
+void LinkedList<T>::sortedFunction()
+{
+    // nach der ersten Iteration befindet sich die größte Zahl an der letzten Stelle im Array
+    // wir müssen es folglich nicht mehr überprüfen(Lösung: -i)
+
+    // bereits sortierte Elemente müssen nicht mehr überprüft werden
+    // --> schnellerer Schleifenabbruch bei fast sortierten Arrays
+
+    bool changeIsDone = true;
+    Node<T>* lastPtr = pEnd;
+    for (int i = 0; i < size() && changeIsDone; i++) {
+        
+        changeIsDone = false;
+        for (setToFirst(); pPos != lastPtr && lastPtr->getPprevious() != nullptr; move()) {
+            std::string pPosName = pPos->getData()->getName();
+            std::string pPosNextName = pPos->getPnext()->getData()->getName();
+
+            if (*pPos > *(pPos->getPnext())) {
+
+                T* tmp = pPos->getData();
+                pPos->setData(pPos->getPnext()->getData());
+                pPos->getPnext()->setData(tmp);
+                
+                changeIsDone = true;
+            }
+
+        }
+        lastPtr = lastPtr->getPprevious();
+    }
 }

@@ -13,6 +13,11 @@ int main() try {
     Person* p2 = new Person("Jamil", 20);
     Person* p3 = new Person("Alex", 20);
     Person* p4 = new Person("Kevin", 20);
+    Person* p5 = new Person("Felix", 20);
+    Person* p6 = new Person("Lukas", 20);
+    Person* p7 = new Person("Thomax", 20);
+    Person* p8 = new Person("Ben", 20);
+
 
 
     //Auto* auto1 = new Auto("VW", "DA1234", 4);
@@ -23,13 +28,20 @@ int main() try {
 
     // Person p5 = personenList.get();
 
+
     personenList.add(p1);
     personenList.add(p2);
     personenList.add(p3);
     personenList.add(p4);
+    personenList.add(p5);
+    personenList.add(p6);
+    personenList.add(p7);
+    personenList.add(p8);
+
+    personenList.sortedFunction();
 
     for (int i = 0; i < personenList.size(); i++) {
-        std::cout << "Name: " << personenList.at(i)->getName() << " . Alter: " << personenList.at(i)->getAlter() << "\n";
+        std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
     }
 
     personenList.insert(2, p2);
@@ -41,11 +53,19 @@ int main() try {
     personenList.pop();
     personenList.pop();
     personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
 
     delete p1;
     delete p2;
     delete p3;
     delete p4;
+    delete p5;
+    delete p6;
+    delete p7;
+    delete p8;
 
     Test::detectMemoryLeak();
     

@@ -1,4 +1,5 @@
 #pragma once
+#include <string.h>
 
 template <typename T>
 class Node {
@@ -11,14 +12,18 @@ public:
     void connectPprevious(Node<T>* src);
     Node* getPnext()const;
     Node* getPprevious()const;
-    void deconnectPnext();
-    void deconnectPprevious();
     T* getData()const;
+    void setData(T* _data);
     ~Node() {
         size--;
         delete data;
-
     }
+    template <typename T>
+    friend bool operator>(Node<T>& rValue, Node<T>& lValue) {
+        return *(rValue.getData()) > *(lValue.getData());
+    }
+
+
 private:
     T* data = nullptr;
     Node<T>* pNext = nullptr;
@@ -63,7 +68,6 @@ void Node<T>::connectPnext(Node<T>* src) {
 
 }
 
-
 template <class T>
 void Node<T>::connectPprevious(Node<T>* src) {
     pPrevious = src;
@@ -81,18 +85,14 @@ Node<T>* Node<T>::getPprevious()const {
 }
 
 template <class T>
-void Node<T>::deconnectPnext() {
-    pNext = nullptr;
-}
-
-template <class T>
-void Node<T>::deconnectPprevious() {
-    pPrevious = nullptr;
-}
-
-template <class T>
 T* Node<T>::getData()const {
     return data;
 
+}
+
+template<typename T>
+void Node<T>::setData(T* _data)
+{
+    data = _data;
 }
 
