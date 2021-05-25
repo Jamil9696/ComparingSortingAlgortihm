@@ -8,11 +8,12 @@
 #include "OwnFunctions.h"
 
 int main() try {
-    Person p1("Farouq", 20);
-    Person p2("Jamil", 24);
-    Person p3("Theodor", 24);
-    Person p4("Alex", 27);
-    Person p5("Thomas", 27);
+
+    Person* p1 = new Person("Farouq", 20);
+    Person* p2 = new Person("Jamil", 20);
+    Person* p3 = new Person("Alex", 20);
+    Person* p4 = new Person("Kevin", 20);
+
 
     //Auto* auto1 = new Auto("VW", "DA1234", 4);
     //Auto* auto2 = new Auto("BMW", "KL5678", 3);
@@ -22,31 +23,32 @@ int main() try {
 
     // Person p5 = personenList.get();
 
-    personenList.push(p1);
-    personenList.push(p2);
-    personenList.push(p3);
-    personenList.push(p4);
-
-    personenList.move();
-
-    personenList.insert(p5);
+    personenList.add(p1);
+    personenList.add(p2);
+    personenList.add(p3);
+    personenList.add(p4);
 
     for (int i = 0; i < personenList.size(); i++) {
-        std::cout <<i << ". "<< personenList.at(i).getName() << "\n";
-    }
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-
-    std::cout << std::endl;
-
-    for (int i = 0; i < personenList.size(); i++) {
-        std::cout << i << ". " << personenList.at(i).getName() << "\n";
+        std::cout << "Name: " << personenList.at(i)->getName() << " . Alter: " << personenList.at(i)->getAlter() << "\n";
     }
 
+    personenList.insert(2, p2);
+    personenList.insert(personenList.size(), p1);
+    personenList.delAt(2);
+
+    personenList.popAt(personenList.size());
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+
+    delete p1;
+    delete p2;
+    delete p3;
+    delete p4;
+
+    Test::detectMemoryLeak();
+    
     return 0;
 }
 catch (std::string& s) {

@@ -5,8 +5,8 @@ template <typename T>
 class Node {
 public:
 
-    Node(const T _data);
-    void storeData(T object);
+    Node( T* _data);
+    void storeData(T* object);
     int getSize() const;
     void connectPnext(Node<T>* src);
     void connectPprevious(Node<T>* src);
@@ -14,13 +14,14 @@ public:
     Node* getPprevious()const;
     void deconnectPnext();
     void deconnectPprevious();
-    T getData()const;
+    T* getData()const;
     ~Node() {
         size--;
+        delete data;
 
     }
 private:
-    T data;
+    T* data = nullptr;
     Node<T>* pNext = nullptr;
     Node<T>* pPrevious = nullptr;
     static int size;
@@ -35,16 +36,17 @@ template <typename T>
 int Node<T>::size = 0;
 
 template<typename T>
-Node<T>::Node(const T _data)
+Node<T>::Node(T* _data)
     :
     data(_data)
 {
+    
     size++;
 }
 
 
 template<typename T>
-void Node<T>::storeData(T object) {
+void Node<T>::storeData(T* object) {
     data = object;
 }
 
@@ -90,7 +92,7 @@ void Node<T>::deconnectPprevious() {
 }
 
 template <class T>
-T Node<T>::getData()const {
+T* Node<T>::getData()const {
     return data;
 
 }
