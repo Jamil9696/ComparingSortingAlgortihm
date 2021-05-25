@@ -56,3 +56,4 @@ catch (std::string& s) {
     while (!_kbhit());
     return 1;
 }
+
