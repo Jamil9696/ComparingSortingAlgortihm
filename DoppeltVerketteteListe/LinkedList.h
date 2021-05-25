@@ -6,20 +6,24 @@ template <typename T>
 class LinkedList
 {
 public:
-    void push(const T object);
+    void add(T* object);
+    void push( T* object);
     void move(int steps = 1);
-    void insert(T object);
-    void del();
+    void insert(int step, T* object);
     void setToFirst();
-    T get();
-    T at(int i);
+   
+    T* get();
+    T* at(int i);
 
     bool empty() const;
     int size()const;
+
+    void del();
+    void delAt(int i);
     void pop();
-    void popAt();
+    void popAt(int i);
 private:
-    void checkPointer();
+   
 
 private:
     Node<T>* pTop = nullptr;
@@ -29,29 +33,51 @@ private:
 
 // ================================== Functions declarations ==========================================
 
+template <typename T>
+void LinkedList<T>::add(T* object) {
 
+    
+    T* newObject = new T(object);
+    Node<T>* newNode = new Node<T>(newObject);
+    Node<T>* tmp = pTop;
 
+    if (pTop == nullptr) pEnd = newNode;
+   
+    pTop = newNode;
+    pTop->connectPnext(tmp);
+
+  if(tmp != nullptr ) tmp->connectPprevious(pTop);
+
+      setToFirst();
+   
+    
+}
 
 template <typename T>
-void LinkedList<T>::push(const T object) {
+void LinkedList<T>::push( T* object) {
 
-    Node<T>* newNode = new Node<T>(object);
+
+    T* newObject = new T(object);
+    Node<T>* newNode = new Node<T>(newObject);
+   
 
     if (pTop != nullptr) {
         pEnd->connectPnext(newNode);
         newNode->connectPprevious(pEnd);
     }
     else {
+
         pTop = newNode;
+        setToFirst();
     }
-    checkPointer();
     pEnd = newNode;
 }
 
 template <typename T>
 void LinkedList<T>::move(int zahl) {
 
-    while (zahl < size() && zahl > 0) {
+    zahl--;
+    while (zahl < size() && zahl >= 0) {
         if (pPos->getPnext() != nullptr) {
             pPos = pPos->getPnext();
         }
@@ -60,71 +86,26 @@ void LinkedList<T>::move(int zahl) {
 }
 
 template <typename T>
-void LinkedList<T>::insert(T Object) {
+void LinkedList<T>::insert(int step, T* object) {
 
-    Node<T>* p = new Node<T>(Object);
+   
     // connect P with his right and left element. We don't have to worry about the existing connections
     // we simply overwrite them
 
-    if (pPos == pEnd) {
-        push(Object);
+    if (pTop == nullptr || pTop->getPnext() == nullptr || pEnd->getPnext() == nullptr) {
+        push(object);
         return;
-    }
+    } 
 
-    else if (pPos == pTop)
-    {
-        
-        Node<T>* tmp = pTop;
-        p->connectPnext(pTop);
-        p->connectPprevious(nullptr);
-        pTop = p;
-        return;
+    move(step);
+    T* newObject = new T(object);
+    Node<T>* p = new Node<T>(newObject);
 
-    }
-
-
-    // right connection
-    //  p ----> next Node
     p->connectPnext(pPos->getPnext());
-    //  p <---- next Node 
     pPos->getPnext()->connectPprevious(p);
 
-    // left connection 
-    // p -----> previous Node 
     p->connectPprevious(pPos);
-    // p <---- previous Node
     pPos->connectPnext(p);
-
-    checkPointer();
-}
-
-template<typename T>
-void LinkedList<T>::del()
-{
-    if (pPos == pTop) {
-        pPos = pTop->getPnext();
-        pTop->deconnectPnext();
-        delete pTop;
-        pTop = pPos;
-        return;
-    }
-
-    else if(pPos == pEnd)
-    {
-        Node<T>* tmp = pPos->getPprevious();
-        delete pPos;
-        pPos = tmp;
-        pEnd = tmp;
-        return;
-
-    }
-
-    Node<T>* tmp = pPos->getPnext();
-    pPos->getPprevious()->connectPnext(pPos->getPnext());
-    pPos->getPnext()->connectPprevious(pPos->getPprevious());
-    delete pPos;
-    pPos = tmp;
-    checkPointer();
 }
 
 template<typename T>
@@ -134,8 +115,9 @@ void LinkedList<T>::setToFirst()
 }
 
 template <typename T>
-T LinkedList<T>::at(int pos) {
+T* LinkedList<T>::at(int pos) {
 
+   
     if (empty() || pos >= size()) throw std::string{ "invalid operation.\nTrying to return an invalid element " };
 
     Node<T>* tmp = pTop;
@@ -146,7 +128,7 @@ T LinkedList<T>::at(int pos) {
 
 }
 template <typename T>
-T LinkedList<T>::get() {
+T* LinkedList<T>::get() {
 
     if (!empty()) {
         return pPos->getData();
@@ -161,51 +143,77 @@ void LinkedList<T>::pop() {
 
     if (pEnd != pTop) {
         Node<T>* tmp = pEnd->getPprevious();
-        tmp->deconnectPnext();
+        tmp->connectPnext(pEnd->getPnext());
         delete pEnd;
         pEnd = tmp;
-        pPos = pTop;
+        setToFirst();
     }
     else {
         if (pTop != nullptr) {
             delete pTop;
             pTop = nullptr;
-        }        
+        }
     }
-
-    checkPointer();
 }
 
 template <typename T>
-void LinkedList<T>::popAt() {
+void LinkedList<T>::popAt(int i) {
 
-    if (pPos == pTop) return; 
+    move(i);
+    if (pTop == pPos) {
+        del();
+        return;
+    }
+
+    if (pPos == pEnd){
+        pop();
+        return;
+     }
 
     Node<T>* tmp = pPos;
     tmp->getPprevious()->connectPnext(tmp->getPnext());
     tmp->getPnext()->connectPprevious(tmp->getPprevious());
-    pPos = pTop;
+    setToFirst();
     delete tmp;
-    delete tmp;
-    checkPointer();
 
 }
 
-
-
-template <typename T>
-void LinkedList<T>::checkPointer() {
-    if (pTop == nullptr) {
-        pTop = nullptr;
-        pPos = nullptr;
-        pEnd = nullptr;
+template<typename T>
+void LinkedList<T>::del()
+{
+    if (!empty()) {
+        pPos = pTop->getPnext();
+        delete pTop;
+        setToFirst();
         return;
     }
-    if (pTop != nullptr) {
-        if (pTop->getPnext() == nullptr) {
-            pPos = pTop;
-            pEnd = pTop;
+
+}
+
+template<typename T>
+void LinkedList<T>::delAt(int i) {
+
+
+    if (!empty()) {
+
+        move(i);
+
+        if (pPos == pTop) {
+            del();
+            return;
         }
+
+        if (pPos == pEnd)
+        {
+            pop();
+            return;
+        }
+
+        Node<T>* tmp = pPos->getPnext();
+        pPos->getPprevious()->connectPnext(pPos->getPnext());
+        pPos->getPnext()->connectPprevious(pPos->getPprevious());
+        delete pPos;
+        pPos = tmp;
     }
 }
 

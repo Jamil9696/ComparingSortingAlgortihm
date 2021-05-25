@@ -11,10 +11,21 @@ public:
 		alter(_alter)
 	{
 	}
+	Person(const Person* ptr)
+		:
+	  name(ptr->getName()),
+	  alter(ptr->getAlter())
+	{
+	}
 
 	Person operator=(const Person& other) {
 		alter = other.alter;
 		name = other.name;
+		return other;
+	}
+	Person* operator=(Person* other) {
+		alter = other->alter;
+		name = other->name;
 		return other;
 	}
 
@@ -31,6 +42,9 @@ public:
 	}
 	void print(){
 		std::cout << name << "\n";
+	}
+	~Person() {
+		std::cout << "hallo";
 	}
 
 private:
