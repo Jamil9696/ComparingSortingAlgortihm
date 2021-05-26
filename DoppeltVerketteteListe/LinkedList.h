@@ -6,18 +6,24 @@ template <typename T>
 class LinkedList
 {
 public:
+    
+    // add
     void add(T* object);
     void push( T* object);
-    void move(int steps = 1);
+    void insert( T* object, bool sortedMode);
     void insert(int step, T* object);
+
+    // pPos
+    void move(int steps = 1);
     void setToFirst();
-   
     T* get();
     T* at(int i);
 
+    // state
     bool empty() const;
     int size()const;
 
+    // delete functions
     void del();
     void delAt(int i);
     void pop();
@@ -85,19 +91,38 @@ void LinkedList<T>::move(int zahl) {
     }
 }
 
+template<typename T>
+void LinkedList<T>::insert( T* object, bool sortedMode)
+{
+    if (sortedMode) {
+
+        for (pPos = pTop; *(pPos->getPnext()->getData()) < *object && pPos != nullptr; pPos = pPos->getPnext())
+        {
+        }
+        insert(0,object);
+    }
+    else {
+        add(object);
+    }
+}
+
+
 template <typename T>
 void LinkedList<T>::insert(int step, T* object) {
 
-   
-    // connect P with his right and left element. We don't have to worry about the existing connections
-    // we simply overwrite them
+    move(step);
 
-    if (pTop == nullptr || pTop->getPnext() == nullptr || pEnd->getPnext() == nullptr) {
+    if (pTop == nullptr || pTop == pPos) {
+        add(object);
+        return;
+    }
+
+    if (pPos == pEnd) {
         push(object);
         return;
-    } 
+    }
 
-    move(step);
+ 
     T* newObject = new T(object);
     Node<T>* p = new Node<T>(newObject);
 
@@ -106,6 +131,8 @@ void LinkedList<T>::insert(int step, T* object) {
 
     p->connectPprevious(pPos);
     pPos->connectPnext(p);
+
+    setToFirst();
 }
 
 template<typename T>
@@ -141,17 +168,19 @@ T* LinkedList<T>::get() {
 template <typename T>
 void LinkedList<T>::pop() {
 
-    if (pEnd != pTop) {
-        Node<T>* tmp = pEnd->getPprevious();
-        tmp->connectPnext(pEnd->getPnext());
-        delete pEnd;
-        pEnd = tmp;
-        setToFirst();
-    }
-    else {
-        if (pTop != nullptr) {
-            delete pTop;
-            pTop = nullptr;
+    if (!empty()) {
+        if (pEnd != pTop) {
+            Node<T>* tmp = pEnd->getPprevious();
+            tmp->connectPnext(pEnd->getPnext());
+            delete pEnd;
+            pEnd = tmp;
+            setToFirst();
+        }
+        else {
+            if (pTop != nullptr) {
+                delete pTop;
+                pTop = nullptr;
+            }
         }
     }
 }
@@ -217,26 +246,9 @@ void LinkedList<T>::delAt(int i) {
     }
 }
 
-template <typename T>
-bool LinkedList<T>::empty()const {
-
-    return pTop == nullptr ? true : false;
-}
-
-template <typename T>
-int LinkedList<T>::size()const {
-
-    return pTop->getSize();
-}
-
 template<typename T>
 void LinkedList<T>::sortedFunction()
 {
-    // nach der ersten Iteration befindet sich die größte Zahl an der letzten Stelle im Array
-    // wir müssen es folglich nicht mehr überprüfen(Lösung: -i)
-
-    // bereits sortierte Elemente müssen nicht mehr überprüft werden
-    // --> schnellerer Schleifenabbruch bei fast sortierten Arrays
 
     bool changeIsDone = true;
     Node<T>* lastPtr = pEnd;
@@ -244,9 +256,7 @@ void LinkedList<T>::sortedFunction()
         
         changeIsDone = false;
         for (setToFirst(); pPos != lastPtr && lastPtr->getPprevious() != nullptr; move()) {
-            std::string pPosName = pPos->getData()->getName();
-            std::string pPosNextName = pPos->getPnext()->getData()->getName();
-
+            
             if (*pPos > *(pPos->getPnext())) {
 
                 T* tmp = pPos->getData();
@@ -259,4 +269,18 @@ void LinkedList<T>::sortedFunction()
         }
         lastPtr = lastPtr->getPprevious();
     }
+
+    setToFirst();
+}
+
+template <typename T>
+bool LinkedList<T>::empty()const {
+
+    return pTop == nullptr ? true : false;
+}
+
+template <typename T>
+int LinkedList<T>::size()const {
+
+    return pTop->getSize();
 }

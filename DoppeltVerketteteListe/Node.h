@@ -23,6 +23,11 @@ public:
         return *(rValue.getData()) > *(lValue.getData());
     }
 
+    template <typename T>
+    friend bool operator<(Node<T>& rValue, Node<T>& lValue) {
+        return *(rValue.getData()) < *(lValue.getData());
+    }
+
 
 private:
     T* data = nullptr;
