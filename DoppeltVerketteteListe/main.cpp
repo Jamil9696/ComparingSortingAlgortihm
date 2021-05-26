@@ -9,6 +9,8 @@
 
 int main() try {
 
+    // Aufgabe 1 - 4 STL-Stack-ultimate-sorted Linked List
+
     Person* p1 = new Person("Farouq", 20);
     Person* p2 = new Person("Jamil", 20);
     Person* p3 = new Person("Alex", 20);
@@ -17,6 +19,8 @@ int main() try {
     Person* p6 = new Person("Lukas", 20);
     Person* p7 = new Person("Thomax", 20);
     Person* p8 = new Person("Ben", 20);
+
+    Person* p9 = new Person("Sven", 20);
 
 
 
@@ -44,6 +48,13 @@ int main() try {
         std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
     }
 
+    personenList.insert(p9, true);
+
+    for (int i = 0; i < personenList.size(); i++) {
+        std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
+    }
+
+
     personenList.insert(2, p2);
     personenList.insert(personenList.size(), p1);
     personenList.delAt(2);
@@ -57,6 +68,11 @@ int main() try {
     personenList.pop();
     personenList.pop();
     personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+
+
 
     delete p1;
     delete p2;
@@ -66,7 +82,7 @@ int main() try {
     delete p6;
     delete p7;
     delete p8;
-
+    delete p9;
     Test::detectMemoryLeak();
     
     return 0;

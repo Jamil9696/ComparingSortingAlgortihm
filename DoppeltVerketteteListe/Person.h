@@ -32,6 +32,9 @@ public:
 	friend bool operator>(const Person& rValue, const Person& lValue) {
 		return rValue.name > lValue.name;
 	}
+	friend bool operator<(const Person& rValue, const Person& lValue) {
+		return rValue.name < lValue.name;
+	}
 
 	bool operator==(const Person& other) {
 		return name == other.name && alter == other.alter;
