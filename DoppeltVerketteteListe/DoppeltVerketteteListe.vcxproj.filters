@@ -26,9 +26,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Auto.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
     <ClInclude Include="Person.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
@@ -39,12 +36,6 @@
       <Filter>Headerdateien</Filter>
     </ClInclude>
     <ClInclude Include="OwnFunctions.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="NodeTemplates.h">
-      <Filter>Headerdateien</Filter>
-    </ClInclude>
-    <ClInclude Include="LinkedListTemplates.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
   </ItemGroup>

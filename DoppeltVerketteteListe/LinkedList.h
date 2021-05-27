@@ -1,5 +1,4 @@
 #pragma once
-#include "LinkedListTemplates.h"
 #include "Node.h"
 
 #include <iostream>
@@ -24,7 +23,6 @@ public:
 
     // state
     bool empty() const;
-
     int getSize()const;
 
     // delete functions
@@ -273,7 +271,7 @@ void LinkedList<T>::delAt(int i) {
 template<typename T>
 void LinkedList<T>::modifiedBubblesort()
 {
-    // modified bubblesort 
+    // modified bubblesort https://www.youtube.com/watch?v=idPPDMNkyNk&t=750s
     bool changeIsDone = true;
     Node<T>* lastPtr = pEnd;
     for (int i = 0; i < getSize() && changeIsDone; i++) {

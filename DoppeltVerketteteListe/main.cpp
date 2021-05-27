@@ -21,8 +21,7 @@ int main() try {
    
     LinkedList<Person> personenList;
 
-    // Person p5 = personenList.get();
-
+ 
 
     personenList.add(p1);
     personenList.add(p2);
@@ -41,7 +40,7 @@ int main() try {
 
     personenList.modifiedBubblesort();
 
-    personenList.insertAfter(p9, true);
+    personenList.insertAfter(p9, true);// sorted insert
 
     for (int i = 0; i < personenList.getSize(); i++) {
         std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
@@ -86,7 +85,7 @@ int main() try {
     delete p8;
     delete p9;
 
-    // when memory leak detected then call 
+    // if memory leak detected then print 
     Test::detectMemoryLeak();
     
     return 0;
