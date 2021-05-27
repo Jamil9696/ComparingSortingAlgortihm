@@ -37,6 +37,7 @@ public:
 private:
     Node<T>* pTop = nullptr;
     Node<T>* pEnd = nullptr;
+    // pPos = Positionszeiger
     Node<T>* pPos = nullptr;
     int size = 0;
 };
@@ -50,6 +51,7 @@ template <typename T>
 void LinkedList<T>::add(T* object) {
 
 
+                                   // deep copy 
     Node<T>* newNode = new Node<T>(new T(object));
     Node<T>* tmp = pTop;
 
@@ -59,6 +61,7 @@ void LinkedList<T>::add(T* object) {
     pTop->connectPnext(tmp);
 
     if (tmp != nullptr) tmp->connectPprevious(pTop);
+
     size++;
 
 
@@ -84,6 +87,7 @@ void LinkedList<T>::push(T* object) {
     size++;
 }
 
+// move pPos ( if zahl = 0 pPos position will not be updated
 template <typename T>
 void LinkedList<T>::move(int zahl) {
    
@@ -95,15 +99,19 @@ void LinkedList<T>::move(int zahl) {
     }
 }
 
+// overloaded function, insert function with sort mode
 template<typename T>
 void LinkedList<T>::insertAfter(T* object, bool sortedMode)
 {
     if (sortedMode) {
 
-        for (pPos = pTop; *(pPos->getPnext()->getData()) < *object && pPos != nullptr; pPos = pPos->getPnext())
+  // setToFirst() = pPos = pTop;  condition = right neighbor of pPos returns its object
+   // which must be ,, < " then the object we want to insert; if condition true pPos = pPos->getPnext (or move() )
+        for (setToFirst(); *(pPos->getPnext()->getData()) < *object && pPos != nullptr; move())
         {
         }
 
+        // 0 because we already know that pPos is on the right position
         insertAfter(0, object);
     }
     else {
@@ -116,27 +124,31 @@ template <typename T>
 void LinkedList<T>::insertAfter(int step, T* object) {
 
     
+    // if step = 0  nothing happens else move pPos
     move(step);
 
+    // when pTop == nullptr ( empty list ) or pTop == pPos, it's like calling add function. Return will interrupt this function 
     if (pTop == nullptr || pTop == pPos) {
         add(object);
         return;
     }
 
+    // when pPos = end, it's like calling push ()
     if (pPos == pEnd) {
         push(object);
         return;
     }
-   
+    
     Node<T>* p = new Node<T>(new T(object));
 
+    // here we have to insert the new Node between right and left neighbor of pPos
     p->connectPnext(pPos->getPnext());
     pPos->getPnext()->connectPprevious(p);
 
     p->connectPprevious(pPos);
     pPos->connectPnext(p);
 
-    setToFirst();
+    setToFirst(); // reset position pointer to pTop
     size++;
    
 }
@@ -157,14 +169,15 @@ T* LinkedList<T>::at(int pos) {
     for (int i = 0; i < pos; i++) {
         tmp = tmp->getPnext();
     }
-    return tmp->getData();
+    return tmp->getData(); // return a pointer which has acces to the stored item
 
 }
 template <typename T>
 T* LinkedList<T>::get()const {
 
     if (!empty()) {
-        return pPos->getData();
+        return pPos->getData(); // return a pointer which has acces to the stored item
+
     }
     else {
         throw std::string{ "invalid operation.\nTrying to return an element of an empty List" };
@@ -176,7 +189,7 @@ void LinkedList<T>::pop() {
 
     if (!empty()) {
       
-
+        // tmp = pEnd - 1, delete pEnd (last Element), pEnd = tmp
         if (pEnd != pTop) {
             Node<T>* tmp = pEnd->getPprevious();
             tmp->connectPnext(pEnd->getPnext());
@@ -185,6 +198,7 @@ void LinkedList<T>::pop() {
             size--;
         }
         else {
+            // 
             if (pTop != nullptr) {
                 delete pTop;
                 pTop = nullptr;
@@ -193,7 +207,7 @@ void LinkedList<T>::pop() {
         }
         
     }
-    setToFirst();
+    setToFirst(); 
     
 }
 
@@ -221,6 +235,7 @@ void LinkedList<T>::delAt(int i) {
 
         move(i);
 
+        // same as explained in insert function
         if (pPos == pTop) {
             del();
             return;
