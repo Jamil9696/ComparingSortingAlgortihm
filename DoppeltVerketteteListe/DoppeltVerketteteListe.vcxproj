@@ -146,7 +146,9 @@
   <ItemGroup>
     <ClInclude Include="Auto.h" />
     <ClInclude Include="LinkedList.h" />
+    <ClInclude Include="LinkedListTemplates.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="NodeTemplates.h" />
     <ClInclude Include="OwnFunctions.h" />
     <ClInclude Include="Person.h" />
   </ItemGroup>
