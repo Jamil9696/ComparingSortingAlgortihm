@@ -60,7 +60,7 @@ int main() try {
         std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
     }
     int j = personenList.getSize();
-    personenList.popAt(personenList.getSize());
+   
     personenList.del();
     personenList.pop();
     personenList.del();

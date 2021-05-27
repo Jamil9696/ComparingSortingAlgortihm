@@ -31,8 +31,6 @@ public:
     void delAt(int i);
     // pop ( at the end )
     void pop();
-    void popAt(int i);
-
     // modifizierter Bubblesort
     void modifiedBubblesort();
 
@@ -169,7 +167,7 @@ T* LinkedList<T>::get()const {
         return pPos->getData();
     }
     else {
-        throw std::string{ "invalid operation.\nTrying to return the last element of an empty List" };
+        throw std::string{ "invalid operation.\nTrying to return an element of an empty List" };
     }
 }
 
@@ -197,31 +195,6 @@ void LinkedList<T>::pop() {
     }
     setToFirst();
     
-}
-
-template <typename T>
-void LinkedList<T>::popAt(int i) {
-
-    setToFirst();
-    move(i);
-    if (pTop == pPos) {
-        del();
-        return;
-    }
-
-    if (pPos == pEnd) {
-        pop();
-        return;
-    }
-
-    Node<T>* tmp = pPos;
-    tmp->getPprevious()->connectPnext(tmp->getPnext());
-    tmp->getPnext()->connectPprevious(tmp->getPprevious());
-    
-    delete tmp;
-    size--;
-    setToFirst();
-
 }
 
 template<typename T>
