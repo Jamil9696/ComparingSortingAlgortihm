@@ -1,12 +1,12 @@
 #pragma once
 #include <string.h>
 
+
 template <typename T>
 class Node {
 public:
 
-    Node( T* _data);
-    void storeData(T* object);
+    Node(T* _data);
     int getSize() const;
     void connectPnext(Node<T>* src);
     void connectPprevious(Node<T>* src);
@@ -52,13 +52,6 @@ Node<T>::Node(T* _data)
     
     size++;
 }
-
-
-template<typename T>
-void Node<T>::storeData(T* object) {
-    data = object;
-}
-
 
 template<typename T>
 int Node<T>::getSize()const

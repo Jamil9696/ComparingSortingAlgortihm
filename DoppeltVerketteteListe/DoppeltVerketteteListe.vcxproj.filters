@@ -41,5 +41,11 @@
     <ClInclude Include="OwnFunctions.h">
       <Filter>Headerdateien</Filter>
     </ClInclude>
+    <ClInclude Include="NodeTemplates.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
+    <ClInclude Include="LinkedListTemplates.h">
+      <Filter>Headerdateien</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

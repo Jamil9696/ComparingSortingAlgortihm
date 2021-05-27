@@ -1,5 +1,7 @@
 #pragma once
+#include "LinkedListTemplates.h"
 #include "Node.h"
+
 #include <iostream>
 
 template <typename T>
@@ -39,33 +41,34 @@ private:
 
 // ================================== Functions declarations ==========================================
 
+
+
+
 template <typename T>
 void LinkedList<T>::add(T* object) {
 
-    
+
     T* newObject = new T(object);
     Node<T>* newNode = new Node<T>(newObject);
     Node<T>* tmp = pTop;
 
     if (pTop == nullptr) pEnd = newNode;
-   
+
     pTop = newNode;
     pTop->connectPnext(tmp);
 
-  if(tmp != nullptr ) tmp->connectPprevious(pTop);
+    if (tmp != nullptr) tmp->connectPprevious(pTop);
 
-      setToFirst();
-   
-    
+
 }
 
 template <typename T>
-void LinkedList<T>::push( T* object) {
+void LinkedList<T>::push(T* object) {
 
-
+  
     T* newObject = new T(object);
     Node<T>* newNode = new Node<T>(newObject);
-   
+
 
     if (pTop != nullptr) {
         pEnd->connectPnext(newNode);
@@ -74,7 +77,7 @@ void LinkedList<T>::push( T* object) {
     else {
 
         pTop = newNode;
-        setToFirst();
+        
     }
     pEnd = newNode;
 }
@@ -92,14 +95,14 @@ void LinkedList<T>::move(int zahl) {
 }
 
 template<typename T>
-void LinkedList<T>::insert( T* object, bool sortedMode)
+void LinkedList<T>::insert(T* object, bool sortedMode)
 {
     if (sortedMode) {
 
         for (pPos = pTop; *(pPos->getPnext()->getData()) < *object && pPos != nullptr; pPos = pPos->getPnext())
         {
         }
-        insert(0,object);
+        insert(0, object);
     }
     else {
         add(object);
@@ -110,6 +113,7 @@ void LinkedList<T>::insert( T* object, bool sortedMode)
 template <typename T>
 void LinkedList<T>::insert(int step, T* object) {
 
+    setToFirst();
     move(step);
 
     if (pTop == nullptr || pTop == pPos) {
@@ -122,7 +126,7 @@ void LinkedList<T>::insert(int step, T* object) {
         return;
     }
 
- 
+
     T* newObject = new T(object);
     Node<T>* p = new Node<T>(newObject);
 
@@ -132,7 +136,7 @@ void LinkedList<T>::insert(int step, T* object) {
     p->connectPprevious(pPos);
     pPos->connectPnext(p);
 
-    setToFirst();
+   
 }
 
 template<typename T>
@@ -144,7 +148,7 @@ void LinkedList<T>::setToFirst()
 template <typename T>
 T* LinkedList<T>::at(int pos) {
 
-   
+    
     if (empty() || pos >= size()) throw std::string{ "invalid operation.\nTrying to return an invalid element " };
 
     Node<T>* tmp = pTop;
@@ -169,12 +173,14 @@ template <typename T>
 void LinkedList<T>::pop() {
 
     if (!empty()) {
+      
+
         if (pEnd != pTop) {
             Node<T>* tmp = pEnd->getPprevious();
             tmp->connectPnext(pEnd->getPnext());
             delete pEnd;
             pEnd = tmp;
-            setToFirst();
+           
         }
         else {
             if (pTop != nullptr) {
@@ -183,26 +189,28 @@ void LinkedList<T>::pop() {
             }
         }
     }
+    setToFirst();
 }
 
 template <typename T>
 void LinkedList<T>::popAt(int i) {
 
+    setToFirst();
     move(i);
     if (pTop == pPos) {
         del();
         return;
     }
 
-    if (pPos == pEnd){
+    if (pPos == pEnd) {
         pop();
         return;
-     }
+    }
 
     Node<T>* tmp = pPos;
     tmp->getPprevious()->connectPnext(tmp->getPnext());
     tmp->getPnext()->connectPprevious(tmp->getPprevious());
-    setToFirst();
+    
     delete tmp;
 
 }
@@ -210,10 +218,13 @@ void LinkedList<T>::popAt(int i) {
 template<typename T>
 void LinkedList<T>::del()
 {
+    setToFirst();
+
     if (!empty()) {
         pPos = pTop->getPnext();
         delete pTop;
-        setToFirst();
+        pTop = pPos;
+       
         return;
     }
 
@@ -249,20 +260,20 @@ void LinkedList<T>::delAt(int i) {
 template<typename T>
 void LinkedList<T>::sortedFunction()
 {
-
+    // modified bubblesort 
     bool changeIsDone = true;
     Node<T>* lastPtr = pEnd;
     for (int i = 0; i < size() && changeIsDone; i++) {
-        
+
         changeIsDone = false;
         for (setToFirst(); pPos != lastPtr && lastPtr->getPprevious() != nullptr; move()) {
-            
+
             if (*pPos > *(pPos->getPnext())) {
 
                 T* tmp = pPos->getData();
                 pPos->setData(pPos->getPnext()->getData());
                 pPos->getPnext()->setData(tmp);
-                
+
                 changeIsDone = true;
             }
 
