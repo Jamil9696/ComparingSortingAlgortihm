@@ -9,34 +9,40 @@ class LinkedList
 {
 public:
     
-    // add
+    // add ( at the beginning )
     void add(T* object);
+    // push ( at the end)
     void push( T* object);
-    void insert( T* object, bool sortedMode);
-    void insert(int step, T* object);
+    void insertAfter( T* object, bool sortedMode);
+    void insertAfter(int step, T* object);
 
     // pPos
     void move(int steps = 1);
     void setToFirst();
-    T* get();
+    T* get()const;
     T* at(int i);
 
     // state
     bool empty() const;
-    int size()const;
+
+    int getSize()const;
 
     // delete functions
+    // del (at the beginning)
     void del();
     void delAt(int i);
+    // pop ( at the end )
     void pop();
     void popAt(int i);
 
-    void sortedFunction();
+    // modifizierter Bubblesort
+    void modifiedBubblesort();
 
 private:
     Node<T>* pTop = nullptr;
     Node<T>* pEnd = nullptr;
     Node<T>* pPos = nullptr;
+    int size = 0;
 };
 
 // ================================== Functions declarations ==========================================
@@ -48,8 +54,7 @@ template <typename T>
 void LinkedList<T>::add(T* object) {
 
 
-    T* newObject = new T(object);
-    Node<T>* newNode = new Node<T>(newObject);
+    Node<T>* newNode = new Node<T>(new T(object));
     Node<T>* tmp = pTop;
 
     if (pTop == nullptr) pEnd = newNode;
@@ -58,16 +63,16 @@ void LinkedList<T>::add(T* object) {
     pTop->connectPnext(tmp);
 
     if (tmp != nullptr) tmp->connectPprevious(pTop);
+    size++;
 
 
 }
 
 template <typename T>
 void LinkedList<T>::push(T* object) {
-
-  
-    T* newObject = new T(object);
-    Node<T>* newNode = new Node<T>(newObject);
+ 
+   
+    Node<T>* newNode = new Node<T>(new T(object));
 
 
     if (pTop != nullptr) {
@@ -80,13 +85,13 @@ void LinkedList<T>::push(T* object) {
         
     }
     pEnd = newNode;
+    size++;
 }
 
 template <typename T>
 void LinkedList<T>::move(int zahl) {
-
-    zahl--;
-    while (zahl < size() && zahl >= 0) {
+   
+    while (zahl < getSize() && zahl > 0) {
         if (pPos->getPnext() != nullptr) {
             pPos = pPos->getPnext();
         }
@@ -95,14 +100,15 @@ void LinkedList<T>::move(int zahl) {
 }
 
 template<typename T>
-void LinkedList<T>::insert(T* object, bool sortedMode)
+void LinkedList<T>::insertAfter(T* object, bool sortedMode)
 {
     if (sortedMode) {
 
         for (pPos = pTop; *(pPos->getPnext()->getData()) < *object && pPos != nullptr; pPos = pPos->getPnext())
         {
         }
-        insert(0, object);
+
+        insertAfter(0, object);
     }
     else {
         add(object);
@@ -111,9 +117,9 @@ void LinkedList<T>::insert(T* object, bool sortedMode)
 
 
 template <typename T>
-void LinkedList<T>::insert(int step, T* object) {
+void LinkedList<T>::insertAfter(int step, T* object) {
 
-    setToFirst();
+    
     move(step);
 
     if (pTop == nullptr || pTop == pPos) {
@@ -125,10 +131,8 @@ void LinkedList<T>::insert(int step, T* object) {
         push(object);
         return;
     }
-
-
-    T* newObject = new T(object);
-    Node<T>* p = new Node<T>(newObject);
+   
+    Node<T>* p = new Node<T>(new T(object));
 
     p->connectPnext(pPos->getPnext());
     pPos->getPnext()->connectPprevious(p);
@@ -136,6 +140,8 @@ void LinkedList<T>::insert(int step, T* object) {
     p->connectPprevious(pPos);
     pPos->connectPnext(p);
 
+    setToFirst();
+    size++;
    
 }
 
@@ -149,7 +155,7 @@ template <typename T>
 T* LinkedList<T>::at(int pos) {
 
     
-    if (empty() || pos >= size()) throw std::string{ "invalid operation.\nTrying to return an invalid element " };
+    if (empty() || pos >= getSize()) throw std::string{ "invalid operation.\nTrying to return an invalid element " };
 
     Node<T>* tmp = pTop;
     for (int i = 0; i < pos; i++) {
@@ -159,7 +165,7 @@ T* LinkedList<T>::at(int pos) {
 
 }
 template <typename T>
-T* LinkedList<T>::get() {
+T* LinkedList<T>::get()const {
 
     if (!empty()) {
         return pPos->getData();
@@ -180,16 +186,19 @@ void LinkedList<T>::pop() {
             tmp->connectPnext(pEnd->getPnext());
             delete pEnd;
             pEnd = tmp;
-           
+            size--;
         }
         else {
             if (pTop != nullptr) {
                 delete pTop;
                 pTop = nullptr;
+                size--;
             }
         }
+        
     }
     setToFirst();
+    
 }
 
 template <typename T>
@@ -212,6 +221,8 @@ void LinkedList<T>::popAt(int i) {
     tmp->getPnext()->connectPprevious(tmp->getPprevious());
     
     delete tmp;
+    size--;
+    setToFirst();
 
 }
 
@@ -224,7 +235,7 @@ void LinkedList<T>::del()
         pPos = pTop->getPnext();
         delete pTop;
         pTop = pPos;
-       
+        size--;
         return;
     }
 
@@ -235,6 +246,7 @@ void LinkedList<T>::delAt(int i) {
 
 
     if (!empty()) {
+        setToFirst();
 
         move(i);
 
@@ -249,21 +261,22 @@ void LinkedList<T>::delAt(int i) {
             return;
         }
 
-        Node<T>* tmp = pPos->getPnext();
         pPos->getPprevious()->connectPnext(pPos->getPnext());
         pPos->getPnext()->connectPprevious(pPos->getPprevious());
+
         delete pPos;
-        pPos = tmp;
+        size--;
+        setToFirst();
     }
 }
 
 template<typename T>
-void LinkedList<T>::sortedFunction()
+void LinkedList<T>::modifiedBubblesort()
 {
     // modified bubblesort 
     bool changeIsDone = true;
     Node<T>* lastPtr = pEnd;
-    for (int i = 0; i < size() && changeIsDone; i++) {
+    for (int i = 0; i < getSize() && changeIsDone; i++) {
 
         changeIsDone = false;
         for (setToFirst(); pPos != lastPtr && lastPtr->getPprevious() != nullptr; move()) {
@@ -291,7 +304,7 @@ bool LinkedList<T>::empty()const {
 }
 
 template <typename T>
-int LinkedList<T>::size()const {
+int LinkedList<T>::getSize()const {
 
-    return pTop->getSize();
+    return size;
 }
