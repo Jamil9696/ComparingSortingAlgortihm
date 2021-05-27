@@ -4,19 +4,25 @@
 
 template <typename T>
 class Node {
+
+
+
+
 public:
-
     Node(T* _data);
-    void connectPnext(Node<T>* src);
-    void connectPprevious(Node<T>* src);
-    Node* getPnext()const;
-    Node* getPprevious()const;
-    T* getData()const;
-    void setData(T* _data);
-
     ~Node() {
         delete data;
     }
+
+    void connectPnext(Node<T>* src);
+    void connectPprevious(Node<T>* src);
+    void setData(T* _data);
+
+    Node* getPnext()const;
+    Node* getPprevious()const;
+    T* getData()const;
+
+   
     template <typename T>
     friend bool operator>(Node<T>& rValue, Node<T>& lValue) {
         return *(rValue.getData()) > *(lValue.getData());
