@@ -17,7 +17,8 @@ public:
 
     // pPos
     void move(int steps = 1);
-    void setToFirst();
+    void setToFirst(); // important = when ever we delete or insert data we have to reset pPos.
+                       //pPos could point to an deleted object or after calling move(), an offset will be added when calling insert() afterwards
     T* get()const;
     T* at(int i);
 
