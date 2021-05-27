@@ -7,15 +7,14 @@ class Node {
 public:
 
     Node(T* _data);
-    int getSize() const;
     void connectPnext(Node<T>* src);
     void connectPprevious(Node<T>* src);
     Node* getPnext()const;
     Node* getPprevious()const;
     T* getData()const;
     void setData(T* _data);
+
     ~Node() {
-        size--;
         delete data;
     }
     template <typename T>
@@ -33,32 +32,18 @@ private:
     T* data = nullptr;
     Node<T>* pNext = nullptr;
     Node<T>* pPrevious = nullptr;
-    static int size;
-
 };
 
 
 // =============================== Function Declarations ==================================
-
-
-template <typename T>
-int Node<T>::size = 0;
 
 template<typename T>
 Node<T>::Node(T* _data)
     :
     data(_data)
 {
-    
-    size++;
 }
 
-template<typename T>
-int Node<T>::getSize()const
-{
-    return size;
-
-}
 
 template <class T>
 void Node<T>::connectPnext(Node<T>* src) {

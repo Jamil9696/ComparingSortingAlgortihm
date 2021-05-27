@@ -3,7 +3,6 @@
 #include <conio.h>
 #include <iostream>
 #include "Person.h"
-#include "Auto.h"
 #include "LinkedList.h"
 #include "OwnFunctions.h"
 
@@ -18,12 +17,6 @@ int main() try {
     Person* p7 = new Person("Thomax", 20);
     Person* p8 = new Person("Ben", 20);
     Person* p9 = new Person("Sven", 20);
-
-
-
-    //Auto* auto1 = new Auto("VW", "DA1234", 4);
-    //Auto* auto2 = new Auto("BMW", "KL5678", 3);
-    //Auto* auto3 = new Auto("Mercedes", "KA9103", 2);
 
    
     LinkedList<Person> personenList;
@@ -40,30 +33,48 @@ int main() try {
     personenList.add(p7);
     personenList.add(p8);
 
-    personenList.sortedFunction();
-
-    for (int i = 0; i < personenList.size(); i++) {
+    for (int i = 0; i < personenList.getSize(); i++) {
         std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
     }
 
-    personenList.insert(p8, true);
+    std::cout << "\n";
 
-    personenList.insert(2, p2);
-    personenList.insert(personenList.size(), p1);
+    personenList.modifiedBubblesort();
+
+    personenList.insertAfter(p9, true);
+
+    for (int i = 0; i < personenList.getSize(); i++) {
+        std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
+    }
+    std::cout << "\n";
+
+    personenList.insertAfter(2, p2);
+
+    for (int i = 0; i < personenList.getSize(); i++) {
+        std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
+    }
+
+    personenList.insertAfter(personenList.getSize(), p1);
     personenList.delAt(2);
 
-    personenList.popAt(personenList.size());
+    for (int i = 0; i < personenList.getSize(); i++) {
+        std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
+    }
+    int j = personenList.getSize();
+    personenList.popAt(personenList.getSize());
     personenList.del();
     personenList.pop();
     personenList.del();
     personenList.pop();
     personenList.del();
+    personenList.pop();
     personenList.del();
+    personenList.pop();
     personenList.del();
     personenList.pop();
+    personenList.del();
     personenList.pop();
-    personenList.pop();
-    personenList.pop();
+    int i = personenList.getSize();
 
     delete p1;
     delete p2;
@@ -75,6 +86,7 @@ int main() try {
     delete p8;
     delete p9;
 
+    // when memory leak detected then call 
     Test::detectMemoryLeak();
     
     return 0;
