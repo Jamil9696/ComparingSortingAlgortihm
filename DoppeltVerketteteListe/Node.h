@@ -5,9 +5,6 @@
 template <typename T>
 class Node {
 
-
-
-
 public:
     Node(T* _data);
     ~Node() {
@@ -32,7 +29,7 @@ public:
     friend bool operator<(Node<T>& rValue, Node<T>& lValue) {
         return *(rValue.getData()) < *(lValue.getData());
     }
-
+    
 
 private:
     T* data = nullptr;
