@@ -1,7 +1,8 @@
 #pragma once
 #include "Node.h"
-
+#include <vector>
 #include <iostream>
+#include <algorithm>
 
 template <typename T>
 class LinkedList
@@ -17,8 +18,7 @@ public:
 
     // pPos
     void move(int steps = 1);
-    void setToFirst(); // important = when ever we delete or insert data we have to reset pPos.
-                       //pPos could point to an deleted object or after calling move(), an offset will be added when calling insert() afterwards
+    void setToFirst(); 
     T* get()const;
     T* at(int i);
 
@@ -34,11 +34,20 @@ public:
     void pop();
     // modifizierter Bubblesort
     void modifiedBubblesort();
+    // MergeSort 
+    //  LinkedList* mergeToOne(LinkedList<T>& list1, LinkedList<T>& list2);
+    LinkedList<T> mergeToOne(LinkedList<T>& cpyList1, LinkedList<T>& returnList);
+    void mergeSort(int begin, int end);
+private:
+    Node<T>* getNodePtr(int i);
+    void SortListPart(int begin, int end);
+    void merge(int begin, int mid , int mid2, int end);
+
+   
 
 private:
     Node<T>* pTop = nullptr;
     Node<T>* pEnd = nullptr;
-    // pPos = Positionszeiger
     Node<T>* pPos = nullptr;
     int size = 0;
 };
@@ -106,13 +115,10 @@ void LinkedList<T>::insertAfter(T* object, bool sortedMode)
 {
     if (sortedMode) {
 
-  // setToFirst() = pPos = pTop;  condition = right neighbor of pPos returns its object
-   // which must be ,, < " then the object we want to insert; if condition true pPos = pPos->getPnext (or move() )
         for (setToFirst(); *(pPos->getPnext()->getData()) < *object && pPos != nullptr; move())
         {
         }
 
-        // 0 because we already know that pPos is on the right position
         insertAfter(0, object);
     }
     else {
@@ -142,7 +148,7 @@ void LinkedList<T>::insertAfter(int step, T* object) {
     
     Node<T>* p = new Node<T>(new T(object));
 
-    // here we have to insert the new Node between right and left neighbor of pPos
+   
     p->connectPnext(pPos->getPnext());
     pPos->getPnext()->connectPprevious(p);
 
@@ -260,7 +266,7 @@ void LinkedList<T>::delAt(int i) {
 template<typename T>
 void LinkedList<T>::modifiedBubblesort()
 {
-    // modified bubblesort https://www.youtube.com/watch?v=idPPDMNkyNk&t=750s
+    
     bool changeIsDone = true;
     Node<T>* lastPtr = pEnd;
     for (int i = 0; i < getSize() && changeIsDone; i++) {
@@ -283,6 +289,108 @@ void LinkedList<T>::modifiedBubblesort()
 
     setToFirst();
 }
+template <typename T> 
+LinkedList<T> mergeToOne(LinkedList<T> &cpyList, LinkedList<T> &returnList) {
+
+    int size = cpyList.getSize() + returnList.getSize();
+    
+    cpyList.setToFirst();
+    
+    
+    for(int i = returnList.getSize(); i < size; i++){
+        returnList.push(cpyList.get());
+        cpyList.move();
+    }
+    returnList.setToFirst();
+   
+
+    returnList.mergeSort(0, returnList.getSize()); 
+
+    return returnList;
+}
+
+
+template <typename T>
+void LinkedList<T>::mergeSort(int begin, int end) {
+    
+    if ((end - begin) > 2) {
+        
+        int midIndex = ((begin + end) / 2); // move function beginnt ab 0 an zu zählen
+        mergeSort(begin, midIndex); 
+        mergeSort(midIndex+1, end);
+        merge(begin, midIndex, midIndex + 1, end - 1);
+
+    }
+}
+
+template <typename T>
+void LinkedList<T>::merge(int begin, int mid, int mid2, int end) {
+
+    Node<T>* leftStart = getNodePtr(begin);
+    Node<T>* leftEnd = getNodePtr(mid);
+    Node<T>* rightStart = getNodePtr(mid2); 
+    Node<T>* rightEnd = getNodePtr(end);
+    // sortiere Linken Teil der Liste
+    SortListPart(begin, mid);
+    // sortiere rechten Teil der >Liste    
+    SortListPart(mid2, end);
+    // merge them to one 
+    std::vector<T*> tmpList;
+
+    // 1) erstelle eine temporäre Liste
+    for (; leftStart != rightEnd; leftStart = leftStart->getPnext()) {
+
+        tmpList.push_back(leftStart->getData());  
+    }
+    tmpList.push_back(leftStart->getData());
+
+    // 2) definiere ein Lambda für die Sortfunction
+    const auto sorter = [](T const& a, T const& b) {
+
+        return a < b;
+    };
+
+    std::stable_sort(tmpList.begin(), tmpList.end(), sorter);
+
+    // 3) overwrite the old data pointers
+
+    int i = 0;
+    for (leftStart = getNodePtr(begin); leftStart != rightEnd; leftStart = leftStart->getPnext()) {
+
+        leftStart->setData(tmpList.at(i++));
+        
+    }
+    leftStart->setData(tmpList.at(i++));
+}
+
+template< typename T>
+void LinkedList<T>::SortListPart(int _begin, int _end) {
+
+    Node<T>* pEnd = getNodePtr(_end);
+    Node<T>* pStart = nullptr;
+    std::vector<T*> tmpList;
+
+    const auto sorter = [](T const& a, T const& b) {
+
+        return a < b;
+    };
+
+    for (pStart = getNodePtr(_begin); pStart != pEnd; pStart = pStart->getPnext()) {
+
+        tmpList.push_back(pStart->getData());
+    }
+    tmpList.push_back(pStart->getData());
+
+
+    std::stable_sort(tmpList.begin(), tmpList.end(),sorter);//
+         
+    int i = 0;
+    for (pStart = getNodePtr(_begin); pStart != pEnd; pStart = pStart->getPnext()) {
+        pStart->setData(tmpList.at(i++));
+    }
+    pStart->setData(tmpList.at(i));
+    
+}
 
 template <typename T>
 bool LinkedList<T>::empty()const {
@@ -294,4 +402,17 @@ template <typename T>
 int LinkedList<T>::getSize()const {
 
     return size;
+}
+
+template <typename T>
+Node<T>* LinkedList<T>::getNodePtr(int index) {
+    setToFirst();
+
+    if (index == 0) return pTop;
+
+    if (index == getSize()) return pEnd;
+
+    move(index);
+    return pPos;
+
 }

@@ -17,30 +17,40 @@ int main() try {
     Person* p7 = new Person("Thomax", 20);
     Person* p8 = new Person("Ben", 20);
     Person* p9 = new Person("Sven", 20);
+    Person* p10 = new Person("Steven", 20);
 
    
     LinkedList<Person> personenList;
-
+    LinkedList<Person> personenList2;
  
 
-    personenList.add(p1);
-    personenList.add(p2);
-    personenList.add(p3);
-    personenList.add(p4);
-    personenList.add(p5);
-    personenList.add(p6);
-    personenList.add(p7);
-    personenList.add(p8);
+    personenList.push(p1);
+    personenList.push(p2);
+    personenList.push(p3);
+    personenList.push(p4);
+    personenList.push(p5);
+    
+    personenList2.push(p6);
+    personenList2.push(p7);
+    personenList2.push(p8);
+    personenList2.push(p9);
+    personenList2.push(p10);
 
-    for (int i = 0; i < personenList.getSize(); i++) {
-        std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
+    
+    personenList2 = mergeToOne(personenList, personenList2);
+    
+    
+    
+
+    for (int i = 0; i < personenList2.getSize(); i++) {
+        std::cout << "Name: " << personenList2.at(i)->getName() << ", Alter: " << personenList2.at(i)->getAlter() << "\n";
     }
 
     std::cout << "\n";
 
-    personenList.modifiedBubblesort();
+    personenList.mergeSort(0, personenList.getSize());
 
-    personenList.insertAfter(p9, true);// sorted insert
+    //personenList.insertAfter(p9, true);// sorted insert
 
     for (int i = 0; i < personenList.getSize(); i++) {
         std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
