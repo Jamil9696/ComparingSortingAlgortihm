@@ -18,6 +18,7 @@ int main() try {
     Person* p8 = new Person("Ben", 20);
     Person* p9 = new Person("Sven", 20);
     Person* p10 = new Person("Steven", 20);
+    Person* p11 = new Person("Adam", 20);
 
    
     LinkedList<Person> personenList;
@@ -29,6 +30,7 @@ int main() try {
     personenList.push(p3);
     personenList.push(p4);
     personenList.push(p5);
+    personenList.push(p11);
     
     personenList2.push(p6);
     personenList2.push(p7);
@@ -36,40 +38,27 @@ int main() try {
     personenList2.push(p9);
     personenList2.push(p10);
 
-    
-    personenList2 = mergeToOne(personenList, personenList2);
-    
-    
-    
+
+    personenList.otherQuicksort(0, personenList.getSize() - 1);
+    //personenList2 = mergeToOne(personenList, personenList2);
+
+
+    for (int i = 0; i < personenList.getSize(); i++) {
+        std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
+    }
+
+    std::cout << "\n\n";
+
+    personenList2.otherQuicksort(0, personenList2.getSize() - 1);
+
 
     for (int i = 0; i < personenList2.getSize(); i++) {
         std::cout << "Name: " << personenList2.at(i)->getName() << ", Alter: " << personenList2.at(i)->getAlter() << "\n";
     }
 
-    std::cout << "\n";
 
-    personenList.mergeSort(0, personenList.getSize());
 
-    //personenList.insertAfter(p9, true);// sorted insert
-
-    for (int i = 0; i < personenList.getSize(); i++) {
-        std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
-    }
-    std::cout << "\n";
-
-    personenList.insertAfter(2, p2);
-
-    for (int i = 0; i < personenList.getSize(); i++) {
-        std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
-    }
-
-    personenList.insertAfter(personenList.getSize(), p1);
-    personenList.delAt(2);
-
-    for (int i = 0; i < personenList.getSize(); i++) {
-        std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
-    }
-    int j = personenList.getSize();
+   
    
     personenList.del();
     personenList.pop();
@@ -83,7 +72,15 @@ int main() try {
     personenList.pop();
     personenList.del();
     personenList.pop();
-    int i = personenList.getSize();
+
+    personenList2.del();
+    personenList2.pop();
+    personenList2.del();
+    personenList2.pop();
+    personenList2.del();
+    personenList2.pop();
+    personenList2.del();
+    personenList2.pop();
 
     delete p1;
     delete p2;
@@ -94,6 +91,8 @@ int main() try {
     delete p7;
     delete p8;
     delete p9;
+    delete p10;
+    delete p11;
 
     // if memory leak detected then print 
     Test::detectMemoryLeak();
