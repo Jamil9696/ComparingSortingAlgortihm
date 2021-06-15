@@ -7,7 +7,6 @@
 #include <iostream>
 #include <crtdbg.h>  
 
-
 namespace StdLibrary {
 
 	void pauseProgramm(const char*);
@@ -26,7 +25,11 @@ namespace InputHandling {
 	int avoidWrongInputs(const char printedText[], int end, int start = 1);
 
 }
+namespace SortingFunctions {
 
+
+	
+}
 namespace Test {
 
 	void detectMemoryLeak();

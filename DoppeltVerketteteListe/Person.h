@@ -49,6 +49,12 @@ public:
 		return name == other.name && alter == other.alter;
 	}
 
+	bool operator!=(const Person& other) {
+		return name != other.name && alter != other.alter;
+	}
+
+
+
 	std::string getName() const {
 		return name;
 	}
@@ -56,8 +62,10 @@ public:
 	int getAlter() const {
 		return alter;
 	}
+
 	void print() {
 		std::cout << name << "\n";
+
 	}
 	~Person() {
 

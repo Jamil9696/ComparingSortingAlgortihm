@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <time.h>
 
+
 template <typename T>
 class LinkedList
 {
@@ -35,10 +36,19 @@ public:
     void pop();
     // modifizierter Bubblesort
     void modifiedBubblesort();
-    // MergeSort 
-    //  LinkedList* mergeToOne(LinkedList<T>& list1, LinkedList<T>& list2);
+  
+    // MergeSort , HeapSort
     LinkedList<T> mergeToOne(LinkedList<T>& cpyList1, LinkedList<T>& returnList);
     void mergeSort(int begin, int end);
+  // heapSort
+    void heapSort( int _size);
+    
+    // show Tree structure
+    int getParent(int i) { return i >> 1; }; // i / 2
+    int getLeftChild(int i) { return (i << 1) + 1; }; // i * 2
+    int getRightChild(int i) { return (i << 1) + 2; }; // i * 2 + 1
+    
+
     //QuickSort
     void quickSort(int low, int high);
     void otherQuicksort(int low, int high);
@@ -46,10 +56,13 @@ public:
 private:
     Node<T>* getNodePtr(int i);
     void SortListPart(int begin, int end);
+
+    void merge(int begin, int mid , int mid2, int end);
+    
+    void heapify(bool sortMode, int size, int i);
+   
     void merge(int begin, int mid, int mid2, int end);
     int partition(int low, int high);
-
-
 private:
     Node<T>* pTop = nullptr;
     Node<T>* pEnd = nullptr;
@@ -319,7 +332,7 @@ void LinkedList<T>::mergeSort(int begin, int end) {
 
     if ((end - begin) > 2) {
 
-        int midIndex = ((begin + end) / 2); // move function beginnt ab 0 an zu zählen
+        int midIndex = ((begin + end) / 2); // move function beginnt ab 0 an zu zÃ¤hlen
         mergeSort(begin, midIndex);
         mergeSort(midIndex + 1, end);
         merge(begin, midIndex, midIndex + 1, end - 1);
@@ -417,21 +430,22 @@ void LinkedList<T>::merge(int begin, int mid, int mid2, int end) {
     Node<T>* leftEnd = getNodePtr(mid);
     Node<T>* rightStart = getNodePtr(mid2);
     Node<T>* rightEnd = getNodePtr(end);
-    // sortiere Linken Teil der Liste
+
+    
     SortListPart(begin, mid);
-    // sortiere rechten Teil der >Liste    
     SortListPart(mid2, end);
+
     // merge them to one 
     std::vector<T*> tmpList;
 
-    // 1) erstelle eine temporäre Liste
+    // 1) erstelle eine temporÃ¤re Liste
     for (; leftStart != rightEnd; leftStart = leftStart->getPnext()) {
 
         tmpList.push_back(leftStart->getData());
     }
     tmpList.push_back(leftStart->getData());
 
-    // 2) definiere ein Lambda für die Sortfunction
+    // 2) definiere ein Lambda fÃ¼r die Sortfunction
     const auto sorter = [](T const& a, T const& b) {
 
         return a < b;
@@ -443,8 +457,7 @@ void LinkedList<T>::merge(int begin, int mid, int mid2, int end) {
 
     int i = 0;
     for (leftStart = getNodePtr(begin); leftStart != rightEnd; leftStart = leftStart->getPnext()) {
-
-        leftStart->setData(tmpList.at(i++));
+        leftStart->setData(tmpList.at(i++));  
 
     }
     leftStart->setData(tmpList.at(i++));
@@ -480,6 +493,66 @@ void LinkedList<T>::SortListPart(int _begin, int _end) {
 }
 
 template <typename T>
+void LinkedList<T>::heapify(bool sortMode, int size, int i) 
+{
+    int L = 2 * i + 1;
+    int R = 2 * i + 2;
+    int large = i;
+
+    Node<T>* parent = getNodePtr(i);
+
+    const Node<T>* leftChild = getNodePtr(L);
+    const Node<T>* rightChild = getNodePtr(R);
+   
+    if (L < size && *(leftChild->getData()) > *(parent->getData())) {
+        large = L;
+
+    }
+
+    if (R < size && *(rightChild->getData()) > *(parent->getData())) {
+        
+        if (*(rightChild->getData()) > *(leftChild->getData())) {
+            large = R;
+        }
+    }
+   
+    if (large != i) {
+        
+        Node<T>* parentNew = getNodePtr(large);
+
+        T* tmp = parent->getData();
+        parent->setData(parentNew->getData());
+        parentNew->setData(tmp);
+        
+        heapify(true, size, large);
+    }
+
+}
+
+template <typename T>
+void LinkedList<T>::heapSort(int size) {
+   
+    for (int i = size / 2 - 1; i >= 0; i--) {
+        heapify(false, size, i);
+    }
+
+    for (int i = size - 1; i >= 0; i--) {
+
+        Node<T>* bigElement = getNodePtr(0);
+        Node<T>* smallElement = getNodePtr(i);
+
+        T* tmp = bigElement->getData();
+        bigElement->setData(smallElement->getData());
+        smallElement->setData(tmp);
+        heapify(true, i, 0);
+    
+    }  
+
+}
+
+
+
+template <typename T>
 bool LinkedList<T>::empty()const {
 
     return pTop == nullptr ? true : false;
@@ -493,13 +566,15 @@ int LinkedList<T>::getSize()const {
 
 template <typename T>
 Node<T>* LinkedList<T>::getNodePtr(int index) {
+   
     setToFirst();
 
-    if (index == 0) return pTop;
+        if (index == 0) return pTop;
 
-    if (index == getSize()) return pEnd;
+        if (index == getSize()) return pEnd;
 
-    move(index);
-    return pPos;
+        move(index);
+        return pPos;
+    
 
 }
