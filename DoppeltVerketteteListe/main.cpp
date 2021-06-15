@@ -28,7 +28,6 @@ int main() try {
     Person* p13 = new Person("Toni", 20);
     Person* p14 = new Person("Klaus", 20);
     Person* p15 = new Person("Lea", 20);
-    Person* p11 = new Person("Adam", 20);
 
     LinkedList<Person> personenList;
     LinkedList<Person> personenList2;
@@ -50,9 +49,6 @@ int main() try {
     personenList.push(p14);
     personenList.push(p15);
 
-
-    personenList.push(p11);
-
     
    // drawTree(personenList);
 
@@ -60,25 +56,57 @@ int main() try {
         std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
     }
 
-    std::cout << "\n";
+    std::cout << "\n\n";
 
     personenList.heapSort(personenList.getSize());
   
     //personenList = mergeToOne(personenList, personenList2);
-    personenList.otherQuicksort(0, personenList.getSize() - 1);
+
+    personenList2.add(p1);
+    personenList2.add(p2);
+    personenList2.add(p3);
+    personenList2.add(p1);
+    //Farouq, Jamil, Alex, Jamil
+    personenList2.quickSort(0, personenList2.getSize() - 1);
     
-
-    for (int i = 0; i < personenList.getSize(); i++) {
-        std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
-    }
-
-
-    personenList2.otherQuicksort(0, personenList2.getSize() - 1);
-
 
     for (int i = 0; i < personenList2.getSize(); i++) {
         std::cout << "Name: " << personenList2.at(i)->getName() << ", Alter: " << personenList2.at(i)->getAlter() << "\n";
     }
+
+
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+    personenList.pop();
+
+    delete p1;
+    delete p2;
+    delete p3;
+    delete p4;
+    delete p5;
+    delete p6;
+    delete p7;
+    delete p8;
+    delete p9;
+    delete p10;
+    delete p11;
+    delete p12;
+    delete p13;
+    delete p14;
+    delete p15;
+
 
     // if memory leak detected then print 
     Test::detectMemoryLeak();

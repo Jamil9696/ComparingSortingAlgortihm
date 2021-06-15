@@ -51,7 +51,6 @@ public:
 
     //QuickSort
     void quickSort(int low, int high);
-    void otherQuicksort(int low, int high);
 
 private:
     Node<T>* getNodePtr(int i);
@@ -61,8 +60,6 @@ private:
     
     void heapify(bool sortMode, int size, int i);
    
-    void merge(int begin, int mid, int mid2, int end);
-    int partition(int low, int high);
 private:
     Node<T>* pTop = nullptr;
     Node<T>* pEnd = nullptr;
@@ -340,52 +337,9 @@ void LinkedList<T>::mergeSort(int begin, int end) {
     }
 }
 
-template<typename T>
-int LinkedList<T>::partition(int low, int high)
-{
-    T pivot = *this->at(high);
-    int i = low;
-    int k = high;
-    do
-    {
-        while (*this->at(i) <= pivot && i < high)
-        {
-            i++;
-        }
-
-        while (*this->at(k) >= pivot && k > low);
-        {
-            k--;
-        }
-
-        if (i < k) {
-            T* temp = this->at(i);
-            this->getNodePtr(i)->setData(this->at(k));
-            this->getNodePtr(k)->setData(temp);
-        }
-    } while (i < k);
-
-    if (*this->at(i) > pivot) {
-        T* temp = this->at(i);
-        this->getNodePtr(i)->setData(this->at(high));
-        this->getNodePtr(high)->setData(temp);
-    }
-
-}
 
 template<typename T>
 void LinkedList<T>::quickSort(int low, int high)
-{
-    if (low < high) {
-        int pivot = this->partition(low, high);
-
-        this->quickSort(low, pivot - 1);
-        this->quickSort(pivot + 1, high);
-    }
-}
-
-template<typename T>
-void LinkedList<T>::otherQuicksort(int low, int high)
 {
     srand(time(NULL));
     if (low < high) {
@@ -394,7 +348,7 @@ void LinkedList<T>::otherQuicksort(int low, int high)
         int k = high-1;
         do
         {
-            while (*this->at(i) <= pivot && i < high)
+            while (*this->at(i) <= pivot && i < high) //Index identischer Elemente wird nicht umgetauscht
             {
                 i++;
             }
@@ -416,10 +370,9 @@ void LinkedList<T>::otherQuicksort(int low, int high)
             this->getNodePtr(i)->setData(this->at(high));
             this->getNodePtr(high)->setData(temp);
         }
-        otherQuicksort(low, i - 1);
-        otherQuicksort(i + 1, high);
+        quickSort(low, i - 1);
+        quickSort(i + 1, high);
     }
-
 
 }
 
