@@ -13,8 +13,8 @@ public:
 	}
 	Person(const Person* ptr)
 		:
-	  name(ptr->getName()),
-	  alter(ptr->getAlter())
+		name(ptr->getName()),
+		alter(ptr->getAlter())
 	{
 	}
 
@@ -32,9 +32,19 @@ public:
 	friend bool operator<(const Person& rValue, const Person& lValue) {
 		return rValue.name < lValue.name;
 	}
+
 	friend bool operator>(const Person& rValue, const Person& lValue) {
 		return rValue.name > lValue.name;
 	}
+
+	friend bool operator<=(const Person& rValue, const Person& lValue) {
+		return rValue.name <= lValue.name;
+	}
+
+	friend bool operator>=(const Person& rValue, const Person& lValue) {
+		return rValue.name >= lValue.name;
+	}
+
 	bool operator==(const Person& other) {
 		return name == other.name && alter == other.alter;
 	}
@@ -52,11 +62,13 @@ public:
 	int getAlter() const {
 		return alter;
 	}
-	 void print(){
-		std::cout << getName() << "\n";
+
+	void print() {
+		std::cout << name << "\n";
+
 	}
 	~Person() {
-		
+
 	}
 
 private:

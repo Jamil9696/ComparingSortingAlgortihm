@@ -28,7 +28,8 @@ int main() try {
     Person* p13 = new Person("Toni", 20);
     Person* p14 = new Person("Klaus", 20);
     Person* p15 = new Person("Lea", 20);
-   
+    Person* p11 = new Person("Adam", 20);
+
     LinkedList<Person> personenList;
     LinkedList<Person> personenList2;
  
@@ -49,18 +50,12 @@ int main() try {
     personenList.push(p14);
     personenList.push(p15);
 
+
+    personenList.push(p11);
+
     
    // drawTree(personenList);
 
-    /*
-    personenList2.push(p6);
-    personenList2.push(p7);
-    personenList2.push(p8);
-    personenList2.push(p9);
-    personenList2.push(p10);
- 
-    personenList2 = mergeToOne(personenList, personenList2);*/
-    
     for (int i = 0; i < personenList.getSize(); i++) {
         std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
     }
@@ -68,17 +63,30 @@ int main() try {
     std::cout << "\n";
 
     personenList.heapSort(personenList.getSize());
-   // personenList.mergeSort(0, personenList.getSize());
-    //personenList.insertAfter(p9, true);// sorted insert
+  
+    //personenList = mergeToOne(personenList, personenList2);
+    personenList.otherQuicksort(0, personenList.getSize() - 1);
+    
 
     for (int i = 0; i < personenList.getSize(); i++) {
         std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
     }
-    std::cout << "\n";
 
-   
+
+    personenList2.otherQuicksort(0, personenList2.getSize() - 1);
+
+
+    for (int i = 0; i < personenList2.getSize(); i++) {
+        std::cout << "Name: " << personenList2.at(i)->getName() << ", Alter: " << personenList2.at(i)->getAlter() << "\n";
+    }
+
+    // if memory leak detected then print 
+    Test::detectMemoryLeak();
+    
+
     int i; 
     std::cin >> i;
+    std::cout << "\n\n";
     return 0;
 }
 catch (std::string& s) {
