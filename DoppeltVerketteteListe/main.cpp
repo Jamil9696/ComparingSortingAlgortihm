@@ -6,6 +6,11 @@
 #include "LinkedList.h"
 #include "OwnFunctions.h"
 
+
+void drawTree(LinkedList<Person>& liste, int i = 0);
+
+
+
 int main() try {
 
     Person* p1 = new Person("Farouq", 20);
@@ -18,7 +23,11 @@ int main() try {
     Person* p8 = new Person("Ben", 20);
     Person* p9 = new Person("Sven", 20);
     Person* p10 = new Person("Steven", 20);
-
+    Person* p11 = new Person("Nora", 20);
+    Person* p12 = new Person("Katja", 20);
+    Person* p13 = new Person("Toni", 20);
+    Person* p14 = new Person("Klaus", 20);
+    Person* p15 = new Person("Lea", 20);
    
     LinkedList<Person> personenList;
     LinkedList<Person> personenList2;
@@ -29,27 +38,37 @@ int main() try {
     personenList.push(p3);
     personenList.push(p4);
     personenList.push(p5);
+    personenList.push(p6);
+    personenList.push(p7);
+    personenList.push(p8);
+    personenList.push(p9);
+    personenList.push(p10);
+    personenList.push(p11);
+    personenList.push(p12);
+    personenList.push(p13);
+    personenList.push(p14);
+    personenList.push(p15);
+
     
+   // drawTree(personenList);
+
+    /*
     personenList2.push(p6);
     personenList2.push(p7);
     personenList2.push(p8);
     personenList2.push(p9);
     personenList2.push(p10);
-
+ 
+    personenList2 = mergeToOne(personenList, personenList2);*/
     
-    personenList2 = mergeToOne(personenList, personenList2);
-    
-    
-    
-
-    for (int i = 0; i < personenList2.getSize(); i++) {
-        std::cout << "Name: " << personenList2.at(i)->getName() << ", Alter: " << personenList2.at(i)->getAlter() << "\n";
+    for (int i = 0; i < personenList.getSize(); i++) {
+        std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
     }
 
     std::cout << "\n";
 
-    personenList.mergeSort(0, personenList.getSize());
-
+    personenList.heapSort(personenList.getSize());
+   // personenList.mergeSort(0, personenList.getSize());
     //personenList.insertAfter(p9, true);// sorted insert
 
     for (int i = 0; i < personenList.getSize(); i++) {
@@ -57,47 +76,9 @@ int main() try {
     }
     std::cout << "\n";
 
-    personenList.insertAfter(2, p2);
-
-    for (int i = 0; i < personenList.getSize(); i++) {
-        std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
-    }
-
-    personenList.insertAfter(personenList.getSize(), p1);
-    personenList.delAt(2);
-
-    for (int i = 0; i < personenList.getSize(); i++) {
-        std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
-    }
-    int j = personenList.getSize();
    
-    personenList.del();
-    personenList.pop();
-    personenList.del();
-    personenList.pop();
-    personenList.del();
-    personenList.pop();
-    personenList.del();
-    personenList.pop();
-    personenList.del();
-    personenList.pop();
-    personenList.del();
-    personenList.pop();
-    int i = personenList.getSize();
-
-    delete p1;
-    delete p2;
-    delete p3;
-    delete p4;
-    delete p5;
-    delete p6;
-    delete p7;
-    delete p8;
-    delete p9;
-
-    // if memory leak detected then print 
-    Test::detectMemoryLeak();
-    
+    int i; 
+    std::cin >> i;
     return 0;
 }
 catch (std::string& s) {
@@ -106,3 +87,45 @@ catch (std::string& s) {
     return 1;
 }
 
+
+
+
+void drawTree(LinkedList<Person> &liste, int i){
+
+    std::cout << "============================================ TREE STRUCTURE ===========================================\n\n\n";
+
+    std::cout << "\t\t\t\t\t\t    " << liste.at(0)->getName() << "\n\n";
+
+    std::string name1 = liste.at(liste.getLeftChild(i))->getName();
+    std::string name2 = liste.at(liste.getRightChild(i++))->getName();
+
+    std::cout << "\t\t\t\t" << name1 << "\t\t\t\t\t" << name2 << "\n\n";
+
+    std::string name3 = liste.at(liste.getLeftChild(i))->getName();
+    std::string name4 = liste.at(liste.getRightChild(i++))->getName();
+
+    std::string name5 = liste.at(liste.getLeftChild(i))->getName();
+    std::string name6 = liste.at(liste.getRightChild(i++))->getName();
+
+    std::cout << "\t\t\t" << name3 << "\t\t" << name4 << "\t\t\t" << name5 << "\t\t" << name6 << "\n\n";
+
+    std::string name7 = liste.at(liste.getLeftChild(i))->getName();
+    std::string name8 = liste.at(liste.getRightChild(i++))->getName();
+
+    std::string name9 = liste.at(liste.getLeftChild(i))->getName();
+    std::string name10 = liste.at(liste.getRightChild(i++))->getName();
+
+    std::string name11 = liste.at(liste.getLeftChild(i))->getName();
+    std::string name12 = liste.at(liste.getRightChild(i++))->getName();
+
+    std::string name13 = liste.at(liste.getLeftChild(i))->getName();
+    std::string name14 = liste.at(liste.getRightChild(i++))->getName();
+
+   
+
+     std::cout << "\t\t    " << name7 << "\t    " << name8 << "    "
+               << name9 << "    " << name10 << "\t     " << name11 << "  "
+               << name12 << "       " << name13 << "\t" << name14 << "\n\n";
+
+
+}

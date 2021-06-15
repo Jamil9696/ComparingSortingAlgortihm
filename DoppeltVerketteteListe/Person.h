@@ -32,10 +32,18 @@ public:
 	friend bool operator<(const Person& rValue, const Person& lValue) {
 		return rValue.name < lValue.name;
 	}
-	
+	friend bool operator>(const Person& rValue, const Person& lValue) {
+		return rValue.name > lValue.name;
+	}
 	bool operator==(const Person& other) {
 		return name == other.name && alter == other.alter;
 	}
+
+	bool operator!=(const Person& other) {
+		return name != other.name && alter != other.alter;
+	}
+
+
 
 	std::string getName() const {
 		return name;
@@ -44,8 +52,8 @@ public:
 	int getAlter() const {
 		return alter;
 	}
-	void print(){
-		std::cout << name << "\n";
+	 void print(){
+		std::cout << getName() << "\n";
 	}
 	~Person() {
 		

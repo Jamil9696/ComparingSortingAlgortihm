@@ -19,7 +19,6 @@ public:
     Node* getPprevious()const;
     T* getData()const;
 
-   
     template <typename T>
     friend bool operator>(Node<T>& rValue, Node<T>& lValue) {
         return *(rValue.getData()) > *(lValue.getData());
@@ -29,6 +28,7 @@ public:
     friend bool operator<(Node<T>& rValue, Node<T>& lValue) {
         return *(rValue.getData()) < *(lValue.getData());
     }
+
     
 
 private:
