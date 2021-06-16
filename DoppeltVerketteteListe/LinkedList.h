@@ -49,19 +49,18 @@ public:
     
 
     //QuickSort
-    void quickSort(int low, int high);
-    void otherQuicksort(int low, int high);
+    void quicksort();
 
 private:
     void mergeSort(int begin, int end);
     void heapSort(int end);
+    void quicksort(int low, int high);
     Node<T>* getNodePtr(int i);
     void merge(int begin, int mid , int end);
     
     void heapify(bool sortMode, int size, int i);
    
     void merge(int begin, int mid, int mid2, int end);
-    int partition(int low, int high);
 private:
     Node<T>* pTop = nullptr;
     Node<T>* pEnd = nullptr;
@@ -84,7 +83,7 @@ void LinkedList<T>::add(T* object) {
 
     if (pTop == nullptr) {
         pEnd = newNode;
-        pMid = newNode;
+       
     }
     pTop = newNode;
     pTop->connectPnext(tmp);
@@ -313,7 +312,7 @@ void LinkedList<T>::modifiedBubblesort()
     setToFirst();
 }
 template <typename T>
-LinkedList<T> mergeToOne(LinkedList<T>& cpyList, LinkedList<T>& returnList) {
+LinkedList<T> LinkedList<T>::mergeToOne(LinkedList<T>& cpyList, LinkedList<T>& returnList) {
 
     int size = cpyList.getSize() + returnList.getSize();
 
@@ -464,7 +463,48 @@ void LinkedList<T>::heapSort(int size) {
 
 }
 
+template <typename T>
+void LinkedList<T>::quicksort() {
 
+    quicksort(0, size - 1);
+}
+
+template<typename T>
+void LinkedList<T>::quicksort(int low, int high)
+{
+    if (low < high) {
+        T pivot = *this->at(high);
+        int i = low;
+        int k = high - 1;
+        do
+        {
+            while (*this->at(i) <= pivot && i < high) //Index identischer Elemente wird nicht umgetauscht, also stabil
+            {
+                i++;
+            }
+
+            while (*this->at(k) >= pivot && k > low)
+            {
+                k--;
+            }
+
+            if (i < k) {
+                T* temp = this->at(i);
+                this->getNodePtr(i)->setData(this->at(k));
+                this->getNodePtr(k)->setData(temp);
+            }
+        } while (i < k);
+
+        if (*this->at(i) > pivot) {
+            T* temp = this->at(i);
+            this->getNodePtr(i)->setData(this->at(high));
+            this->getNodePtr(high)->setData(temp);
+        }
+        quicksort(low, i - 1);
+        quicksort(i + 1, high);
+    }
+
+}
 
 template <typename T>
 bool LinkedList<T>::empty()const {

@@ -8,6 +8,7 @@
 #include <random>
 #include <time.h>
 #include <chrono>
+
 using namespace std::chrono;
 
 void drawTree(LinkedList<Person>& liste, int i = 0);
@@ -31,7 +32,7 @@ int main() try {
     std::cout << "Start!" << std::endl;
     auto start = high_resolution_clock::now();
 
-    randomList.heapSort();
+    randomList.quicksort();
 
     auto ende = high_resolution_clock::now();
 
