@@ -5,14 +5,51 @@
 #include "Person.h"
 #include "LinkedList.h"
 #include "OwnFunctions.h"
-
+#include <random>
+#include <time.h>
+#include <chrono>
+using namespace std::chrono;
 
 void drawTree(LinkedList<Person>& liste, int i = 0);
 
-
-
 int main() try {
 
+    std::mt19937 rng(time(nullptr));
+    std::uniform_int_distribution<int> randomNumber(0, 5000);
+    srand(time(NULL));
+    int generateNumber;
+
+    LinkedList<Person> randomList;
+    
+    for (int i = 0; i < 5000; i++) {
+        generateNumber = randomNumber(rng);
+        randomList.push(new Person("random", rand() % 5000));
+
+    }
+
+    std::cout << "\n";
+    std::cout << "Start!" << std::endl;
+    auto start = high_resolution_clock::now();
+
+    randomList.heapSort();
+
+    auto ende = high_resolution_clock::now();
+
+    for (int i = 0; i < randomList.getSize(); i++) {
+       std::cout << randomList.at(i)->getAlter() << "  ";
+    }
+
+    std::cout << "\n\n benoetigte Zeit: " << duration_cast<milliseconds>(ende - start).count() << " ms";
+    
+    while (!_kbhit());
+
+    for (int i = 0; i < randomList.getSize(); i++) {
+       std::cout << randomList.at(i)->getAlter() << "   ";
+    }
+
+   
+
+    /*
     Person* p1 = new Person("Farouq", 20);
     Person* p2 = new Person("Jamil", 20);
     Person* p3 = new Person("Alex", 20);
@@ -59,7 +96,7 @@ int main() try {
     personenList2.push(p9);
     personenList2.push(p10);
  
-    personenList2 = mergeToOne(personenList, personenList2);*/
+    personenList2 = mergeToOne(personenList, personenList2);
     
     for (int i = 0; i < personenList.getSize(); i++) {
         std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
@@ -74,11 +111,11 @@ int main() try {
     for (int i = 0; i < personenList.getSize(); i++) {
         std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
     }
-    std::cout << "\n";
+    std::cout << "\n";*/
 
    
-    int i; 
-    std::cin >> i;
+    int j; 
+    std::cin >> j;
     return 0;
 }
 catch (std::string& s) {
