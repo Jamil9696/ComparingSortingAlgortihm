@@ -5,14 +5,52 @@
 #include "Person.h"
 #include "LinkedList.h"
 #include "OwnFunctions.h"
+#include <random>
+#include <time.h>
+#include <chrono>
 
+using namespace std::chrono;
 
 void drawTree(LinkedList<Person>& liste, int i = 0);
 
-
-
 int main() try {
 
+    std::mt19937 rng(time(nullptr));
+    std::uniform_int_distribution<int> randomNumber(0, 5000);
+    srand(time(NULL));
+    int generateNumber;
+
+    LinkedList<Person> randomList;
+    
+    for (int i = 0; i < 5000; i++) {
+        generateNumber = randomNumber(rng);
+        randomList.push(new Person("random", rand() % 5000));
+
+    }
+
+    std::cout << "\n";
+    std::cout << "Start!" << std::endl;
+    auto start = high_resolution_clock::now();
+
+    randomList.quicksort();
+
+    auto ende = high_resolution_clock::now();
+
+    for (int i = 0; i < randomList.getSize(); i++) {
+       std::cout << randomList.at(i)->getAlter() << "  ";
+    }
+
+    std::cout << "\n\n benoetigte Zeit: " << duration_cast<milliseconds>(ende - start).count() << " ms";
+    
+    while (!_kbhit());
+
+    for (int i = 0; i < randomList.getSize(); i++) {
+       std::cout << randomList.at(i)->getAlter() << "   ";
+    }
+
+   
+
+    /*
     Person* p1 = new Person("Farouq", 20);
     Person* p2 = new Person("Jamil", 20);
     Person* p3 = new Person("Alex", 20);
@@ -49,64 +87,7 @@ int main() try {
     personenList.push(p14);
     personenList.push(p15);
 
-    
-   // drawTree(personenList);
-
-    for (int i = 0; i < personenList.getSize(); i++) {
-        std::cout << "Name: " << personenList.at(i)->getName() << ", Alter: " << personenList.at(i)->getAlter() << "\n";
-    }
-
-    std::cout << "\n\n";
-
-    personenList.heapSort(personenList.getSize());
-  
-    //personenList = mergeToOne(personenList, personenList2);
-
-    personenList2.add(p1);
-    personenList2.add(p2);
-    personenList2.add(p3);
-    personenList2.add(p1);
-    //Farouq, Jamil, Alex, Jamil
-    personenList2.quickSort(0, personenList2.getSize() - 1);
-    
-
-    for (int i = 0; i < personenList2.getSize(); i++) {
-        std::cout << "Name: " << personenList2.at(i)->getName() << ", Alter: " << personenList2.at(i)->getAlter() << "\n";
-    }
-
-
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-    personenList.pop();
-
-    delete p1;
-    delete p2;
-    delete p3;
-    delete p4;
-    delete p5;
-    delete p6;
-    delete p7;
-    delete p8;
-    delete p9;
-    delete p10;
-    delete p11;
-    delete p12;
-    delete p13;
-    delete p14;
-    delete p15;
-
+    //personenList2 = mergeToOne(personenList, personenList2);*/
 
     // if memory leak detected then print 
     Test::detectMemoryLeak();
@@ -115,6 +96,11 @@ int main() try {
     int i; 
     std::cin >> i;
     std::cout << "\n\n";
+    std::cout << "\n";
+
+   
+    int j; 
+    std::cin >> j;
     return 0;
 }
 catch (std::string& s) {

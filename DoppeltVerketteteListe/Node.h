@@ -6,6 +6,7 @@ template <typename T>
 class Node {
 
 public:
+    Node(){};
     Node(T* _data);
     ~Node() {
         delete data;
@@ -29,6 +30,18 @@ public:
         return *(rValue.getData()) < *(lValue.getData());
     }
 
+    template <typename T>
+    friend bool operator<=(Node<T>& rValue, Node<T>& lValue) {
+        return *(rValue.getData()) <= *(lValue.getData());
+    }
+
+    template <typename T>
+    Node<T>* operator=(const Node<T>* a){
+        data = a->getData();
+        pNext = a->getPnext();
+        pPrevious = a->getPprevious();
+        
+    }
     
 
 private:
