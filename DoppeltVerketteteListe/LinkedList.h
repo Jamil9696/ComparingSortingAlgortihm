@@ -49,6 +49,7 @@ public:
     
 
     //QuickSort
+
     void quicksort();
 
 private:
@@ -59,8 +60,6 @@ private:
     void merge(int begin, int mid , int end);
     
     void heapify(bool sortMode, int size, int i);
-   
-    void merge(int begin, int mid, int mid2, int end);
 private:
     Node<T>* pTop = nullptr;
     Node<T>* pEnd = nullptr;
