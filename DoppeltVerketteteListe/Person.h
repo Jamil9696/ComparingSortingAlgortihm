@@ -29,6 +29,22 @@ public:
 		return other;
 	}
 
+	
+	friend bool operator<(const Person& rValue, const Person& lValue) {
+		return rValue.alter < lValue.alter;
+	}
+	friend bool operator>(const Person& rValue, const Person& lValue) {
+		return rValue.alter > lValue.alter;
+	}
+	friend bool operator<=(const Person& rValue, const Person& lValue) {
+		return rValue.alter <= lValue.alter;
+	}
+
+	friend bool operator>=(const Person& rValue, const Person& lValue) {
+		return rValue.alter >= lValue.alter;
+	}
+	
+	/*
 	friend bool operator<(const Person& rValue, const Person& lValue) {
 		return rValue.name < lValue.name;
 	}
@@ -53,7 +69,7 @@ public:
 		return name != other.name && alter != other.alter;
 	}
 
-
+	*/
 
 	std::string getName() const {
 		return name;

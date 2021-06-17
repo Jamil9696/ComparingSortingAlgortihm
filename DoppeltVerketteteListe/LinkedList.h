@@ -39,9 +39,8 @@ public:
   
     // MergeSort , HeapSort
     LinkedList<T> mergeToOne(LinkedList<T>& cpyList1, LinkedList<T>& returnList);
-    void mergeSort(int begin, int end);
-  // heapSort
-    void heapSort( int _size);
+    void mergeSort();
+    void heapSort();
     
     // show Tree structure
     int getParent(int i) { return i >> 1; }; // i / 2
@@ -50,16 +49,19 @@ public:
     
 
     //QuickSort
-    void quickSort(int low, int high);
+
+    void quicksort();
 
 private:
+    void mergeSort(int begin, int end);
+    void heapSort(int end);
+    void quicksort(int low, int high);
     Node<T>* getNodePtr(int i);
-    void SortListPart(int begin, int end);
-
-    void merge(int begin, int mid , int mid2, int end);
+    void merge(int begin, int mid , int end);
     
-    void heapify(bool sortMode, int size, int i);
+    void heapify( int size, int i);
    
+    void merge(int begin, int mid, int mid2, int end);
 private:
     Node<T>* pTop = nullptr;
     Node<T>* pEnd = nullptr;
@@ -80,14 +82,18 @@ void LinkedList<T>::add(T* object) {
     Node<T>* newNode = new Node<T>(new T(object));
     Node<T>* tmp = pTop;
 
-    if (pTop == nullptr) pEnd = newNode;
-
+    if (pTop == nullptr) {
+        pEnd = newNode;
+       
+    }
     pTop = newNode;
     pTop->connectPnext(tmp);
 
     if (tmp != nullptr) tmp->connectPprevious(pTop);
 
     size++;
+
+    
 
 
 }
@@ -110,6 +116,8 @@ void LinkedList<T>::push(T* object) {
     }
     pEnd = newNode;
     size++;
+
+    
 }
 
 // move pPos ( if zahl = 0 pPos position will not be updated
@@ -305,148 +313,100 @@ void LinkedList<T>::modifiedBubblesort()
     setToFirst();
 }
 template <typename T>
-LinkedList<T> mergeToOne(LinkedList<T>& cpyList, LinkedList<T>& returnList) {
+LinkedList<T> LinkedList<T>::mergeToOne(LinkedList<T>& cpyList, LinkedList<T>& cpyList2) {
 
-    int size = cpyList.getSize() + returnList.getSize();
 
+    LinkedList<T> newList;
+  
+   
     cpyList.setToFirst();
-
-
-    for (int i = returnList.getSize(); i < size; i++) {
-        returnList.push(cpyList.get());
+    for (int i = 0; i < cpyList.getSize(); i++) {
+        newList.push(cpyList.get());
         cpyList.move();
     }
-    returnList.setToFirst();
 
+    cpyList2.setToFirst();
+    for (int i = 0; i < cpyList2.getSize(); i++) {
+        newList.push(cpyList2.get());
+        cpyList2.move();
+    }
+   
+    newList.mergeSort(0, newList.getSize() - 1); 
 
-    returnList.mergeSort(0, returnList.getSize());
-
-    return returnList;
+    return newList;
 }
 
 template <typename T>
-void LinkedList<T>::mergeSort(int begin, int end) {
-
-    if ((end - begin) > 2) {
-
-        int midIndex = ((begin + end) / 2); // move function beginnt ab 0 an zu zählen
-        mergeSort(begin, midIndex);
-        mergeSort(midIndex + 1, end);
-        merge(begin, midIndex, midIndex + 1, end - 1);
-
-    }
-}
-
-
-template<typename T>
-void LinkedList<T>::quickSort(int low, int high)
-{
-    srand(time(NULL));
-    if (low < high) {
-        T pivot = *this->at(high);
-        int i = low;
-        int k = high-1;
-        do
-        {
-            while (*this->at(i) <= pivot && i < high) //Index identischer Elemente wird nicht umgetauscht
-            {
-                i++;
-            }
-
-            while (*this->at(k) >= pivot && k > low)
-            {
-                k--;
-            }
-
-            if (i < k) {
-                T* temp = this->at(i);
-                this->getNodePtr(i)->setData(this->at(k));
-                this->getNodePtr(k)->setData(temp);
-            }
-        } while (i < k);
-
-        if (*this->at(i) > pivot) {
-            T* temp = this->at(i);
-            this->getNodePtr(i)->setData(this->at(high));
-            this->getNodePtr(high)->setData(temp);
-        }
-        quickSort(low, i - 1);
-        quickSort(i + 1, high);
-    }
-
+void LinkedList<T>::mergeSort() {
+    mergeSort(0, size - 1);
 }
 
 template <typename T>
-void LinkedList<T>::merge(int begin, int mid, int mid2, int end) {
+void LinkedList<T>::mergeSort(int l, int r) {
+    
+    if (l < r) {
+        //left + (right - left) / 2
+        int m = l + (r - l) / 2;
+        mergeSort(l, m); //
+        mergeSort(m + 1, r);
+        merge(l, m, r);
+    }
+}
 
-    Node<T>* leftStart = getNodePtr(begin);
-    Node<T>* leftEnd = getNodePtr(mid);
-    Node<T>* rightStart = getNodePtr(mid2);
-    Node<T>* rightEnd = getNodePtr(end);
+template <typename T>
+void LinkedList<T>::merge(int begin, int mid, int end) {
+
+    const int n1 = mid - begin + 1;
+    const int n2 = end - mid;
+    int i = 0;
+    int j = 0;
+    int k = begin;
+
+    // Create temp arrays
+    std::vector<T*> tmpL;
+    std::vector<T*> tmpR;
 
     
-    SortListPart(begin, mid);
-    SortListPart(mid2, end);
-
-    // merge them to one 
-    std::vector<T*> tmpList;
-
-    // 1) erstelle eine temporäre Liste
-    for (; leftStart != rightEnd; leftStart = leftStart->getPnext()) {
-
-        tmpList.push_back(leftStart->getData());
+    // Copy data to temp arrays L[] and R[]
+    for (int i = 0; i < n1; i++) {
+        
+        tmpL.push_back(getNodePtr(begin + i)->getData());
+       
     }
-    tmpList.push_back(leftStart->getData());
+    for (int j = 0; j < n2; j++) {
+        tmpR.push_back(getNodePtr(mid + 1 + j )->getData());
+        
+    }
 
-    // 2) definiere ein Lambda für die Sortfunction
-    const auto sorter = [](T const& a, T const& b) {
+    // Merge the temp arrays back into arr[l..r]
+   
+    pPos = getNodePtr(k);
+    while (i < n1 && j < n2) {
+        if (*(tmpL.at(i)) <= *(tmpR.at(j))){
+            pPos->setData(tmpL.at(i++));
+        }
+        else {
+            pPos->setData(tmpR.at(j++));
+        }
+        move();
+       
+    }
 
-        return a < b;
-    };
-
-    std::stable_sort(tmpList.begin(), tmpList.end(), sorter);
-
-    // 3) overwrite the old data pointers
-
-    int i = 0;
-    for (leftStart = getNodePtr(begin); leftStart != rightEnd; leftStart = leftStart->getPnext()) {
-        leftStart->setData(tmpList.at(i++));  
+    while (i < n1) {
+        pPos->setData(tmpL.at(i++));
+        move();
 
     }
-    leftStart->setData(tmpList.at(i++));
+    while (j < n2) {
+        pPos->setData(tmpR.at(j++));
+        move();
+    }
+
 }
 
-template< typename T>
-void LinkedList<T>::SortListPart(int _begin, int _end) {
-
-    Node<T>* pEnd = getNodePtr(_end);
-    Node<T>* pStart = nullptr;
-    std::vector<T*> tmpList;
-
-    const auto sorter = [](T const& a, T const& b) {
-
-        return a < b;
-    };
-
-    for (pStart = getNodePtr(_begin); pStart != pEnd; pStart = pStart->getPnext()) {
-
-        tmpList.push_back(pStart->getData());
-    }
-    tmpList.push_back(pStart->getData());
-
-
-    std::stable_sort(tmpList.begin(), tmpList.end(), sorter);//
-
-    int i = 0;
-    for (pStart = getNodePtr(_begin); pStart != pEnd; pStart = pStart->getPnext()) {
-        pStart->setData(tmpList.at(i++));
-    }
-    pStart->setData(tmpList.at(i));
-
-}
 
 template <typename T>
-void LinkedList<T>::heapify(bool sortMode, int size, int i) 
+void LinkedList<T>::heapify( int size, int i) 
 {
     int L = 2 * i + 1;
     int R = 2 * i + 2;
@@ -477,16 +437,21 @@ void LinkedList<T>::heapify(bool sortMode, int size, int i)
         parent->setData(parentNew->getData());
         parentNew->setData(tmp);
         
-        heapify(true, size, large);
+        heapify( size, large);
     }
 
+}
+
+template <typename T>
+void LinkedList<T>::heapSort() {
+    heapSort(size);
 }
 
 template <typename T>
 void LinkedList<T>::heapSort(int size) {
    
     for (int i = size / 2 - 1; i >= 0; i--) {
-        heapify(false, size, i);
+        heapify( size, i);
     }
 
     for (int i = size - 1; i >= 0; i--) {
@@ -497,13 +462,54 @@ void LinkedList<T>::heapSort(int size) {
         T* tmp = bigElement->getData();
         bigElement->setData(smallElement->getData());
         smallElement->setData(tmp);
-        heapify(true, i, 0);
+        heapify( i, 0);
     
     }  
 
 }
 
+template <typename T>
+void LinkedList<T>::quicksort() {
 
+    quicksort(0, size - 1);
+}
+
+template<typename T>
+void LinkedList<T>::quicksort(int low, int high)
+{
+    if (low < high) {
+        T pivot = *this->at(high);
+        int i = low;
+        int k = high - 1;
+        do
+        {
+            while (*this->at(i) <= pivot && i < high) //Index identischer Elemente wird nicht umgetauscht, also stabil
+            {
+                i++;
+            }
+
+            while (*this->at(k) >= pivot && k > low)
+            {
+                k--;
+            }
+
+            if (i < k) {
+                T* temp = this->at(i);
+                this->getNodePtr(i)->setData(this->at(k));
+                this->getNodePtr(k)->setData(temp);
+            }
+        } while (i < k);
+
+        if (*this->at(i) > pivot) {
+            T* temp = this->at(i);
+            this->getNodePtr(i)->setData(this->at(high));
+            this->getNodePtr(high)->setData(temp);
+        }
+        quicksort(low, i - 1);
+        quicksort(i + 1, high);
+    }
+
+}
 
 template <typename T>
 bool LinkedList<T>::empty()const {
@@ -521,11 +527,15 @@ template <typename T>
 Node<T>* LinkedList<T>::getNodePtr(int index) {
    
     setToFirst();
-
+      
         if (index == 0) return pTop;
 
         if (index == getSize()) return pEnd;
 
+        /*if (index >= size / 2) {
+            pPos = pMid;
+            index = size - index;
+        }*/
         move(index);
         return pPos;
     
