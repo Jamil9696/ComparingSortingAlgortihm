@@ -14,17 +14,18 @@ using namespace std::chrono;
 void drawTree(LinkedList<Person>& liste, int i = 0);
 
 int main() try {
-/*
+
+    /*
     std::mt19937 rng(time(nullptr));
-    std::uniform_int_distribution<int> randomNumber(0, 5000);
+    std::uniform_int_distribution<int> randomNumber(0, 100);
     srand(time(NULL));
     int generateNumber;
 
     LinkedList<Person> randomList;
     
-    for (int i = 0; i < 5000; i++) {
+    for (int i = 0; i < 100; i++) {
         generateNumber = randomNumber(rng);
-        randomList.push(new Person("random", rand() % 5000));
+        randomList.push(new Person("random", generateNumber));
 
     }
 
@@ -47,9 +48,9 @@ int main() try {
     for (int i = 0; i < randomList.getSize(); i++) {
        std::cout << randomList.at(i)->getAlter() << "   ";
     }
-
-   */
-
+    */
+   
+   
     
     Person* p1 = new Person("Farouq", 20);
     Person* p2 = new Person("Jamil", 20);
@@ -79,17 +80,19 @@ int main() try {
     personenList.push(p5);
     personenList.push(p6);
     personenList.push(p7);
-    personenList2.push(p8);
-    personenList2.push(p9);
-    personenList2.push(p10);
-    personenList2.push(p11);
-    personenList2.push(p12);
-    personenList2.push(p13);
-    personenList2.push(p14);
-    personenList2.push(p15);
+    personenList.push(p8);
+    personenList.push(p9);
+    personenList.push(p10);
+    personenList.push(p11);
+    personenList.push(p12);
+    personenList.push(p13);
+    personenList.push(p14);
+    personenList.push(p15);
 
+    personenList.quicksort();
+    drawTree(personenList);
     LinkedList<Person> newList; 
-    newList = newList.mergeToOne(personenList, personenList2);
+   // newList = newList.mergeToOne(personenList, personenList2);
     
     for (int i = 0; i < newList.getSize(); i++) {
         std::cout << "Name: " << newList.at(i)->getName() << ", Alter: " << newList.at(i)->getAlter() << "\n";
@@ -98,18 +101,16 @@ int main() try {
     std::cout << "\n";
 
     // if memory leak detected then print 
-    Test::detectMemoryLeak();
+    //Test::detectMemoryLeak();
     
 
     int i; 
     std::cin >> i;
     std::cout << "\n\n";
     std::cout << "\n";
-
+    
+    
    
-    int j; 
-    std::cin >> j;
-    return 0;
 }
 catch (std::string& s) {
     std::cout << s;
@@ -151,10 +152,8 @@ void drawTree(LinkedList<Person> &liste, int i){
     std::string name13 = liste.at(liste.getLeftChild(i))->getName();
     std::string name14 = liste.at(liste.getRightChild(i++))->getName();
 
-   
-
      std::cout << "\t\t    " << name7 << "\t    " << name8 << "    "
-               << name9 << "    " << name10 << "\t     " << name11 << "  "
+               << name9 << "       " << name10 << "\t  " << name11 << "  "
                << name12 << "       " << name13 << "\t" << name14 << "\n\n";
 
 
