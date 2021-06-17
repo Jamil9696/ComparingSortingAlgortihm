@@ -58,7 +58,7 @@ private:
     Node<T>* getNodePtr(int i);
     void merge(int begin, int mid , int end);
     
-    void heapify(bool sortMode, int size, int i);
+    void heapify( int size, int i);
    
     void merge(int begin, int mid, int mid2, int end);
 private:
@@ -312,23 +312,27 @@ void LinkedList<T>::modifiedBubblesort()
     setToFirst();
 }
 template <typename T>
-LinkedList<T> LinkedList<T>::mergeToOne(LinkedList<T>& cpyList, LinkedList<T>& returnList) {
+LinkedList<T> LinkedList<T>::mergeToOne(LinkedList<T>& cpyList, LinkedList<T>& cpyList2) {
 
-    int size = cpyList.getSize() + returnList.getSize();
 
+    LinkedList<T> newList;
+  
+   
     cpyList.setToFirst();
-
-
-    for (int i = returnList.getSize(); i < size; i++) {
-        returnList.push(cpyList.get());
+    for (int i = 0; i < cpyList.getSize(); i++) {
+        newList.push(cpyList.get());
         cpyList.move();
     }
-    returnList.setToFirst();
 
+    cpyList2.setToFirst();
+    for (int i = 0; i < cpyList2.getSize(); i++) {
+        newList.push(cpyList2.get());
+        cpyList2.move();
+    }
+   
+    newList.mergeSort(0, newList.getSize() - 1); 
 
-    returnList.mergeSort(0, returnList.getSize() - 1); 
-
-    return returnList;
+    return newList;
 }
 
 template <typename T>
@@ -342,7 +346,7 @@ void LinkedList<T>::mergeSort(int l, int r) {
     if (l < r) {
         //left + (right - left) / 2
         int m = l + (r - l) / 2;
-        mergeSort(l, m);
+        mergeSort(l, m); //
         mergeSort(m + 1, r);
         merge(l, m, r);
     }
@@ -401,7 +405,7 @@ void LinkedList<T>::merge(int begin, int mid, int end) {
 
 
 template <typename T>
-void LinkedList<T>::heapify(bool sortMode, int size, int i) 
+void LinkedList<T>::heapify( int size, int i) 
 {
     int L = 2 * i + 1;
     int R = 2 * i + 2;
@@ -432,7 +436,7 @@ void LinkedList<T>::heapify(bool sortMode, int size, int i)
         parent->setData(parentNew->getData());
         parentNew->setData(tmp);
         
-        heapify(true, size, large);
+        heapify( size, large);
     }
 
 }
@@ -446,7 +450,7 @@ template <typename T>
 void LinkedList<T>::heapSort(int size) {
    
     for (int i = size / 2 - 1; i >= 0; i--) {
-        heapify(false, size, i);
+        heapify( size, i);
     }
 
     for (int i = size - 1; i >= 0; i--) {
@@ -457,7 +461,7 @@ void LinkedList<T>::heapSort(int size) {
         T* tmp = bigElement->getData();
         bigElement->setData(smallElement->getData());
         smallElement->setData(tmp);
-        heapify(true, i, 0);
+        heapify( i, 0);
     
     }  
 
