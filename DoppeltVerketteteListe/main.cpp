@@ -15,15 +15,18 @@ void drawTree(LinkedList<Person>& liste, int i = 0);
 
 int main() try {
 
-    /*
+    int wert = 10000;
+
     std::mt19937 rng(time(nullptr));
-    std::uniform_int_distribution<int> randomNumber(0, 100);
+    std::uniform_int_distribution<int> randomNumber(0, wert);
+
     srand(time(NULL));
     int generateNumber;
 
     LinkedList<Person> randomList;
     
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < wert; i++) {
+
         generateNumber = randomNumber(rng);
         randomList.push(new Person("random", generateNumber));
 
@@ -33,7 +36,7 @@ int main() try {
     std::cout << "Start!" << std::endl;
     auto start = high_resolution_clock::now();
 
-    randomList.quicksort();
+    randomList.modifiedBubblesort();
 
     auto ende = high_resolution_clock::now();
 
@@ -48,10 +51,10 @@ int main() try {
     for (int i = 0; i < randomList.getSize(); i++) {
        std::cout << randomList.at(i)->getAlter() << "   ";
     }
-    */
-   
-   
-    
+
+
+    /*
+
     Person* p1 = new Person("Farouq", 20);
     Person* p2 = new Person("Jamil", 20);
     Person* p3 = new Person("Alex", 20);
@@ -99,7 +102,7 @@ int main() try {
     }
 
     std::cout << "\n";
-
+    */
     // if memory leak detected then print 
     //Test::detectMemoryLeak();
     
@@ -108,9 +111,9 @@ int main() try {
     std::cin >> i;
     std::cout << "\n\n";
     std::cout << "\n";
-    
-    
-   
+
+    return 0;
+
 }
 catch (std::string& s) {
     std::cout << s;
