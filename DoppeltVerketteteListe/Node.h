@@ -42,8 +42,6 @@ public:
         pPrevious = a->getPprevious();
         
     }
-    
-
 private:
     T* data = nullptr;
     Node<T>* pNext = nullptr;

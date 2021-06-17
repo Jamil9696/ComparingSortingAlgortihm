@@ -4,7 +4,7 @@
 #include <iostream>
 #include <algorithm>
 #include <time.h>
-
+#include <random>
 
 template <typename T>
 class LinkedList
@@ -34,23 +34,18 @@ public:
     void delAt(int i);
     // pop ( at the end )
     void pop();
-    // modifizierter Bubblesort
-    void modifiedBubblesort();
   
-    // MergeSort , HeapSort
+    // Sortieralgorithmen
     LinkedList<T> mergeToOne(LinkedList<T>& cpyList1, LinkedList<T>& returnList);
     void mergeSort();
     void heapSort();
-    
+    void quicksort();
+    void modifiedBubblesort();
+
     // show Tree structure
     int getParent(int i) { return i >> 1; }; // i / 2
     int getLeftChild(int i) { return (i << 1) + 1; }; // i * 2
     int getRightChild(int i) { return (i << 1) + 2; }; // i * 2 + 1
-    
-
-    //QuickSort
-
-    void quicksort();
 
 private:
     void mergeSort(int begin, int end);
@@ -471,6 +466,7 @@ void LinkedList<T>::heapSort(int size) {
 template <typename T>
 void LinkedList<T>::quicksort() {
 
+    
     quicksort(0, size - 1);
 }
 

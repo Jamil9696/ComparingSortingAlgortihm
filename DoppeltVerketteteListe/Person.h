@@ -45,6 +45,7 @@ public:
 	}
 	
 	/*
+
 	friend bool operator<(const Person& rValue, const Person& lValue) {
 		return rValue.name < lValue.name;
 	}
