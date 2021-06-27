@@ -34,19 +34,23 @@ public:
     void delAt(int i);
     // pop ( at the end )
     void pop();
+    void clear();
   
     // Sortieralgorithmen
-    LinkedList<T> mergeToOne(LinkedList<T>& cpyList1, LinkedList<T>& returnList);
+    LinkedList<T>* mergeToOne(LinkedList<T>&cpyList1, LinkedList<T>& returnList);
     void mergeSort();
     void heapSort();
     void quicksort();
     void modifiedBubblesort();
 
+
     // show Tree structure
     int getParent(int i) { return i >> 1; }; // i / 2
     int getLeftChild(int i) { return (i << 1) + 1; }; // i * 2 + 1
     int getRightChild(int i) { return (i << 1) + 2; }; // i * 2 + 2
-
+    ~LinkedList() {
+        clear();
+    }
 private:
     void mergeSort(int begin, int end);
     void heapSort(int end);
@@ -235,6 +239,12 @@ void LinkedList<T>::pop() {
     setToFirst();
 
 }
+template<typename T>
+void LinkedList<T>::clear() {
+
+    while (!empty()) pop();
+
+}
 
 template<typename T>
 void LinkedList<T>::del()
@@ -308,28 +318,28 @@ void LinkedList<T>::modifiedBubblesort()
     setToFirst();
 }
 template <typename T>
-LinkedList<T> LinkedList<T>::mergeToOne(LinkedList<T>& cpyList, LinkedList<T>& cpyList2) {
+LinkedList<T>* LinkedList<T>::mergeToOne(LinkedList<T>&cpyList, LinkedList<T>&cpyList2) {
 
 
-    if (!empty()) return *this;
+    if (!empty()) return this;
 
-        LinkedList<T> newList;
+        LinkedList<T>* newList = new LinkedList<Person>;
 
 
         cpyList.setToFirst();
         for (int i = 0; i < cpyList.getSize(); i++) {
-            newList.push(cpyList.get());
+            newList->push(cpyList.get());
             cpyList.move();
         }
 
         cpyList2.setToFirst();
         for (int i = 0; i < cpyList2.getSize(); i++) {
-            newList.push(cpyList2.get());
+            newList->push(cpyList2.get());
             cpyList2.move();
         }
-
-        newList.mergeSort(0, newList.getSize() - 1);
-
+        newList->mergeSort(0, newList->getSize() - 1);
+        
+        delete this;
         return newList;
     
 
