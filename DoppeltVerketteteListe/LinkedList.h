@@ -44,8 +44,8 @@ public:
 
     // show Tree structure
     int getParent(int i) { return i >> 1; }; // i / 2
-    int getLeftChild(int i) { return (i << 1) + 1; }; // i * 2
-    int getRightChild(int i) { return (i << 1) + 2; }; // i * 2 + 1
+    int getLeftChild(int i) { return (i << 1) + 1; }; // i * 2 + 1
+    int getRightChild(int i) { return (i << 1) + 2; }; // i * 2 + 2
 
 private:
     void mergeSort(int begin, int end);
@@ -311,24 +311,28 @@ template <typename T>
 LinkedList<T> LinkedList<T>::mergeToOne(LinkedList<T>& cpyList, LinkedList<T>& cpyList2) {
 
 
-    LinkedList<T> newList;
-  
-   
-    cpyList.setToFirst();
-    for (int i = 0; i < cpyList.getSize(); i++) {
-        newList.push(cpyList.get());
-        cpyList.move();
-    }
+    if (!empty()) return *this;
 
-    cpyList2.setToFirst();
-    for (int i = 0; i < cpyList2.getSize(); i++) {
-        newList.push(cpyList2.get());
-        cpyList2.move();
-    }
-   
-    newList.mergeSort(0, newList.getSize() - 1); 
+        LinkedList<T> newList;
 
-    return newList;
+
+        cpyList.setToFirst();
+        for (int i = 0; i < cpyList.getSize(); i++) {
+            newList.push(cpyList.get());
+            cpyList.move();
+        }
+
+        cpyList2.setToFirst();
+        for (int i = 0; i < cpyList2.getSize(); i++) {
+            newList.push(cpyList2.get());
+            cpyList2.move();
+        }
+
+        newList.mergeSort(0, newList.getSize() - 1);
+
+        return newList;
+    
+
 }
 
 template <typename T>
@@ -361,7 +365,6 @@ void LinkedList<T>::merge(int begin, int mid, int end) {
     std::vector<T*> tmpL;
     std::vector<T*> tmpR;
 
-    
     // Copy data to temp arrays L[] and R[]
     for (int i = 0; i < n1; i++) {
         
@@ -445,6 +448,7 @@ void LinkedList<T>::heapSort() {
 template <typename T>
 void LinkedList<T>::heapSort(int size) {
    
+
     for (int i = size / 2 - 1; i >= 0; i--) {
         heapify( size, i);
     }
@@ -528,12 +532,7 @@ Node<T>* LinkedList<T>::getNodePtr(int index) {
 
         if (index == getSize()) return pEnd;
 
-        /*if (index >= size / 2) {
-            pPos = pMid;
-            index = size - index;
-        }*/
         move(index);
         return pPos;
-    
-
+  
 }
