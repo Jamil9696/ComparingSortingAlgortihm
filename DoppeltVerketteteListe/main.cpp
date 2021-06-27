@@ -28,7 +28,8 @@ int main() try {
 
     LinkedList<Person> randomList;
     
-    for (int i = 0; i < 100; i++) {
+    for (int i = 0; i < wert; i++) {
+
         generateNumber = randomNumber(rng);
         randomList.push(new Person("random", generateNumber));
 
@@ -38,7 +39,7 @@ int main() try {
     std::cout << "Start!" << std::endl;
     auto start = high_resolution_clock::now();
 
-    randomList.quicksort();
+    randomList.modifiedBubblesort();
 
     auto ende = high_resolution_clock::now();
 
@@ -106,7 +107,7 @@ int main() try {
     }
 
     std::cout << "\n";
-
+    */
     // if memory leak detected then print 
     //Test::detectMemoryLeak();
     
@@ -115,9 +116,9 @@ int main() try {
     std::cin >> i;
     std::cout << "\n\n";
     std::cout << "\n";
-    
-    
-   
+
+    return 0;
+
 }
 catch (std::string& s) {
     std::cout << s;
