@@ -10,57 +10,18 @@
 #include <chrono>
 
 using namespace std::chrono;
-
+void test();
 void drawTree(LinkedList<Person>& liste, int i = 0);
 
 int main() try {
 
 
-    // für Laufzeitvergleich die überladenen Operatoren für Namen in der Personenklasse auskommentieren  und Operatoren für 
-    // Alter nutzen
-    /*
-    * 
-    * rand oder mt19937 für Zufallszahlen
-    std::mt19937 rng(time(nullptr));
-    std::uniform_int_distribution<int> randomNumber(0, 100);
-    srand(time(NULL));
-    int generateNumber;
-
-    LinkedList<Person> randomList;
-    
-    for (int i = 0; i < wert; i++) {
-
-        generateNumber = randomNumber(rng);
-        randomList.push(new Person("random", generateNumber));
-
-    }
-
-    std::cout << "\n";
-    std::cout << "Start!" << std::endl;
-    auto start = high_resolution_clock::now();
-
-    randomList.modifiedBubblesort();
-
-    auto ende = high_resolution_clock::now();
-
-    for (int i = 0; i < randomList.getSize(); i++) {
-       std::cout << randomList.at(i)->getAlter() << "  ";
-    }
-
-    std::cout << "\n\n benoetigte Zeit: " << duration_cast<milliseconds>(ende - start).count() << " ms";
-    
-    while (!_kbhit());
-
-    for (int i = 0; i < randomList.getSize(); i++) {
-       std::cout << randomList.at(i)->getAlter() << "   ";
-    }
-    */
    
    // Operatoren für Namenvergleich nutzen, und Altervergleich auskommentieren
     
     Person* p1 = new Person("Farouq", 20);
     Person* p2 = new Person("Jamil", 20);
-    Person* p3 = new Person("Alex", 20);
+  /*  Person* p3 = new Person("Alex", 20);
     Person* p4 = new Person("Kevin", 20);
     Person* p5 = new Person("Felix", 20);
     Person* p6 = new Person("Lukas", 20);
@@ -72,45 +33,50 @@ int main() try {
     Person* p12 = new Person("Katja", 20);
     Person* p13 = new Person("Toni", 20);
     Person* p14 = new Person("Klaus", 20);
-    Person* p15 = new Person("Lea", 20);
+    Person* p15 = new Person("Lea", 20);*/
    
 
-    LinkedList<Person> personenList;
-    LinkedList<Person> personenList2;
+    LinkedList<Person> *personenList = new LinkedList<Person>;
+    LinkedList<Person> *personenList2 = new LinkedList<Person>;
     
-
-    personenList.push(p1);
-    personenList.push(p2);
-    personenList.push(p3);
-    personenList.push(p4);
-    personenList.push(p5);
-    personenList.push(p6);
-    personenList.push(p7);
-    personenList2.push(p8);
-    personenList2.push(p9);
-    personenList2.push(p10);
-    personenList2.push(p11);
-    personenList2.push(p12);
-    personenList2.push(p13);
-    personenList2.push(p14);
-    personenList2.push(p15);
+    
+    personenList->push(p1);
+    personenList2->push(p2);
+   // personenList->push(p3);
+    /*personenList->push(p4);
+    personenList->push(p5);
+    personenList->push(p6);
+    personenList->push(p7);
+    personenList->push(p8);
+    personenList2->push(p9);
+    personenList2->push(p10);
+    personenList2->push(p11);
+    personenList2->push(p12);
+    personenList2->push(p13);
+    personenList2->push(p14);
+    personenList2->push(p15);*/
 
     //personenList.quicksort();
    // personenList.quicksort();
    // drawTree(personenList); // draw Tree 15 Elemente in einer List einspeichern und dann returnen
-    LinkedList<Person> newList; 
+    LinkedList<Person>* newList = new LinkedList<Person>;
     //newList.push(p1); // mergetoOne wird nur funktionieren wenn newlist leer ist
-    newList = newList.mergeToOne(personenList, personenList2); //die 15 Elemente zuvor auf zwei Listen aufteilen 
+    newList = newList->mergeToOne(*personenList, *personenList2); //die 15 Elemente zuvor auf zwei Listen aufteilen 
     
-    for (int i = 0; i < newList.getSize(); i++) {
-        std::cout << "Name: " << newList.at(i)->getName() << ", Alter: " << newList.at(i)->getAlter() << "\n";
+    for (int i = 0; i < newList->getSize(); i++) {
+        std::cout << "Name: " << newList->at(i)->getName() << ", Alter: " << newList->at(i)->getAlter() << "\n";
     }
 
     std::cout << "\n";
-    */
-    // if memory leak detected then print 
-    //Test::detectMemoryLeak();
+
+    delete personenList;
+    delete personenList2;
+    delete newList;
+    delete p1; 
+    delete p2;
     
+    // if memory leak detected then print 
+    Test::detectMemoryLeak();
 
     int i; 
     std::cin >> i;
@@ -125,7 +91,47 @@ catch (std::string& s) {
     while (!_kbhit());
     return 1;
 }
+void test() {
 
+    // für Laufzeitvergleich die überladenen Operatoren für Namen in der Personenklasse auskommentieren  und Operatoren für 
+   // Alter nutzen
+   //rand oder mt19937 für Zufallszahlen
+   const int value = 100;
+   std::mt19937 rng(time(nullptr));
+   std::uniform_int_distribution<int> randomNumber(0, value);
+   srand(time(NULL));
+   int generateNumber;
+
+   LinkedList<Person> randomList;
+
+   for (int i = 0; i < value; i++) {
+
+       generateNumber = randomNumber(rng);
+       randomList.push(new Person("random", generateNumber));
+
+   }
+
+   std::cout << "\n";
+   std::cout << "Start!" << std::endl;
+   auto start = high_resolution_clock::now();
+
+   randomList.modifiedBubblesort();
+
+   auto ende = high_resolution_clock::now();
+
+   for (int i = 0; i < randomList.getSize(); i++) {
+      std::cout << randomList.at(i)->getAlter() << "  ";
+   }
+
+   std::cout << "\n\n benoetigte Zeit: " << duration_cast<milliseconds>(ende - start).count() << " ms";
+
+   while (!_kbhit());
+
+   for (int i = 0; i < randomList.getSize(); i++) {
+      std::cout << randomList.at(i)->getAlter() << "   ";
+   }
+
+}
 
 
 
