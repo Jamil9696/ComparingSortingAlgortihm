@@ -15,7 +15,12 @@ void drawTree(LinkedList<Person>& liste, int i = 0);
 
 int main() try {
 
+
+    // für Laufzeitvergleich die überladenen Operatoren für Namen in der Personenklasse auskommentieren  und Operatoren für 
+    // Alter nutzen
     /*
+    * 
+    * rand oder mt19937 für Zufallszahlen
     std::mt19937 rng(time(nullptr));
     std::uniform_int_distribution<int> randomNumber(0, 100);
     srand(time(NULL));
@@ -50,7 +55,7 @@ int main() try {
     }
     */
    
-   
+   // Operatoren für Namenvergleich nutzen, und Altervergleich auskommentieren
     
     Person* p1 = new Person("Farouq", 20);
     Person* p2 = new Person("Jamil", 20);
@@ -80,19 +85,21 @@ int main() try {
     personenList.push(p5);
     personenList.push(p6);
     personenList.push(p7);
-    personenList.push(p8);
-    personenList.push(p9);
-    personenList.push(p10);
-    personenList.push(p11);
-    personenList.push(p12);
-    personenList.push(p13);
-    personenList.push(p14);
-    personenList.push(p15);
+    personenList2.push(p8);
+    personenList2.push(p9);
+    personenList2.push(p10);
+    personenList2.push(p11);
+    personenList2.push(p12);
+    personenList2.push(p13);
+    personenList2.push(p14);
+    personenList2.push(p15);
 
-    personenList.quicksort();
-    drawTree(personenList);
+    //personenList.quicksort();
+   // personenList.quicksort();
+   // drawTree(personenList); // draw Tree 15 Elemente in einer List einspeichern und dann returnen
     LinkedList<Person> newList; 
-   // newList = newList.mergeToOne(personenList, personenList2);
+    //newList.push(p1); // mergetoOne wird nur funktionieren wenn newlist leer ist
+    newList = newList.mergeToOne(personenList, personenList2); //die 15 Elemente zuvor auf zwei Listen aufteilen 
     
     for (int i = 0; i < newList.getSize(); i++) {
         std::cout << "Name: " << newList.at(i)->getName() << ", Alter: " << newList.at(i)->getAlter() << "\n";
